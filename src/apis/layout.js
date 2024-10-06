@@ -1,4 +1,4 @@
-
+// layout.js
 import httpInstance from "@/utils/http"
 
 export function getCategoryAPI () {

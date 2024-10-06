@@ -26,35 +26,43 @@ const router = createRouter({
       children: [
         {
           path: '',
-          component: Home
+          component: Home,
+          meta: { title: '秉文书城' }
         },
         {
           path: 'category/:id',
-          component: Category
+          component: Category,
+          meta: { title: '分类' }
         },
         {
           path: 'category/sub/:id',
-          component: SubCategory
+          component: SubCategory,
+          meta: { title: '子分类' }
         },
         {
           path: 'detail/:id',
-          component: Detail
+          component: Detail,
+          meta: { title: '图书详情' }
         },
         {
           path: 'cartlist',
-          component: CartList
+          component: CartList,
+          meta: { title: '购物车' }
         },
         {
           path: 'checkout',
-          component: Checkout
+          component: Checkout,
+          meta: { title: '图书结算' }
         },
         {
           path: 'pay',
-          component: Pay
+          component: Pay,
+          meta: { title: '支付页' }
         },
         {
           path: 'paycallback',
-          component: PayBack
+          component: PayBack,
+          meta: { title: '支付返回' }
         },
         {
           path: 'member',
@@ -62,11 +70,13 @@ const router = createRouter({
           children: [
             {
               path: '',
-              component: UserInfo
+              component: UserInfo,
+              meta: { title: '用户信息' }
             },
             {
               path: 'order',
-              component: UserOrder
+              component: UserOrder,
+              meta: { title: '订单列表' }
             }
           ]
         }
@@ -74,7 +84,8 @@ const router = createRouter({
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
+      meta: { title: '登录秉文书城' }
     }
   ],
   // 路由滚动行为定制
@@ -84,5 +95,11 @@ const router = createRouter({
     }
   }
 })
+
+// 全局前置守卫
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || '秉文书城';
+  next();
+});
 
 export default router

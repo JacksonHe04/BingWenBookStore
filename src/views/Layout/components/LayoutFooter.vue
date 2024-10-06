@@ -10,21 +10,29 @@
         </dl>
         <dl>
           <dt>关注我们</dt>
-          <dd><i class="iconfont icon-weixin"></i> 公众号</dd>
-          <dd><i class="iconfont icon-weibo"></i> 微博</dd>
+          <dd>
+            <a href="https://github.com/JacksonHe04/BingWenBookStore" target="_blank">
+              <i class="iconfont icon-weixin"></i> 微信
+            </a>
+          </dd>
+          <dd>
+            <a href="https://github.com/JacksonHe04/BingWenBookStore" target="_blank">
+              <i class="iconfont icon-weibo"></i> 微博
+            </a>
+          </dd>
         </dl>
         <dl>
-          <dt>下载APP</dt>
+          <dt>联系我们</dt>
           <dd class="qrcode"><img src="@/assets/images/qrcode.jpg" /></dd>
           <dd class="download">
             <span>扫描二维码</span>
-            <span>立马下载APP</span>
-            <a href="javascript:;">下载页面</a>
+            <span>立即联系开发者</span>
+            <a href="javascript:;">关于我们</a>
           </dd>
         </dl>
         <dl>
           <dt>服务热线</dt>
-          <dd class="hotline">400-0000-000 <small>周一至周日 8:00-18:00</small></dd>
+          <dd class="hotline">136-9566-3529 <small>周一至周日 8:00-18:00</small></dd>
         </dl>
       </div>
     </div>
@@ -34,29 +42,27 @@
         <div class="slogan">
           <a href="javascript:;">
             <i class="iconfont icon-footer01"></i>
-            <span>价格亲民</span>
+            <span>售后省心</span>
           </a>
           <a href="javascript:;">
             <i class="iconfont icon-footer02"></i>
-            <span>物流快捷</span>
+            <span>图书优质</span>
           </a>
           <a href="javascript:;">
             <i class="iconfont icon-footer03"></i>
-            <span>品质新鲜</span>
+            <span>物流快捷</span>
           </a>
         </div>
         <!-- 版权信息 -->
         <div class="copyright">
           <p>
-            <a href="javascript:;">关于我们</a>
+            <a href="https://github.com/JacksonHe04/BingWenBookStore">关于我们</a>
             <a href="javascript:;">帮助中心</a>
             <a href="javascript:;">售后服务</a>
-            <a href="javascript:;">配送与验收</a>
+            <a href="javascript:;">配送服务</a>
             <a href="javascript:;">商务合作</a>
-            <a href="javascript:;">搜索推荐</a>
-            <a href="javascript:;">友情链接</a>
           </p>
-          <p>CopyRight © 小兔鲜儿</p>
+          <p>CopyRight © 何锦诚，刘睿哲，郑宇榕 2024 All rights reserved.</p>
         </div>
       </div>
     </div>
@@ -226,3 +232,5 @@
   }
 }
 </style>
+<script setup lang="ts">
+</script>

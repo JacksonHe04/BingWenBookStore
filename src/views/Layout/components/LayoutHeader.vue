@@ -36,7 +36,7 @@ import HeaderCart from './HeaderCart.vue'
 
     a {
       display: block;
-      height: 132px;
+      height: 110px;
       width: 100%;
       text-indent: -9999px;
       background: url('@/assets/images/logo.png') no-repeat center 18px / contain;
