@@ -5,7 +5,7 @@ import { useCategoryStore } from '@/stores/categoryStore'
 // 创建分类存储的实例
 const categoryStore = useCategoryStore()
 </script>
-
+<!-- test -->
 <template>
   <!-- 导航栏列表 -->
   <ul class="app-header-nav">
