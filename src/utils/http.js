@@ -3,12 +3,12 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/userStore'
+// 后端接口网址
 const httpInstance = axios.create({
-  baseURL: 'https://pcapi-xiaotuxian-front-devtest.itheima.net',
+  // baseURL: 'https://pcapi-xiaotuxian-front-devtest.itheima.net',
+  baseURL: 'http://127.0.0.1:4523/m1/5240263-4907578-default',
   timeout: 5000
 })
-
-// 拦截器
 
 // axios请求拦截器
 httpInstance.interceptors.request.use(config => {

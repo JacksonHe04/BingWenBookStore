@@ -14,43 +14,39 @@ const categoryStore = useCategoryStore()
       <RouterLink to="/">首页</RouterLink>
     </li>
     <!-- 分类导航项，通过 v-for 指令遍历分类列表 -->
-    <!--<li class="home" v-for="item in categoryStore.categoryList" :key="item.id">-->
-    <!--  <RouterLink active-class="active" :to="`/category/${item.id}`">-->
-    <!--    {{ item.name }}-->
-    <!--  </RouterLink>-->
+    <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
+      <RouterLink active-class="active" :to="`/category/${item.id}`">
+        {{ item.name }}
+      </RouterLink>
+    </li>
+
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/1">小说</RouterLink>-->
     <!--</li>-->
-
-    <li class="home">
-      <RouterLink active-class="active" to="/category/1">小说</RouterLink>
-    </li>
-
-    <li class="home">
-      <RouterLink active-class="active" to="/category/2">诗歌</RouterLink>
-    </li>
-    <li class="home">
-      <RouterLink active-class="active" to="/category/3">心理</RouterLink>
-    </li>
-    <li class="home">
-      <RouterLink active-class="active" to="/category/4">职场</RouterLink>
-    </li>
-    <li class="home">
-      <RouterLink active-class="active" to="/category/5">科学</RouterLink>
-    </li>
-    <li class="home">
-      <RouterLink active-class="active" to="/category/6">人文</RouterLink>
-    </li>
-    <li class="home">
-      <RouterLink active-class="active" to="/category/7">杂志</RouterLink>
-    </li>
-    <li class="home">
-      <RouterLink active-class="active" to="/category/8">儿童</RouterLink>
-    </li>
-    <li class="home">
-      <RouterLink active-class="active" to="/category/9">其它</RouterLink>
-    </li>
-
-
-
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/2">诗歌</RouterLink>-->
+    <!--</li>-->
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/3">心理</RouterLink>-->
+    <!--</li>-->
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/4">职场</RouterLink>-->
+    <!--</li>-->
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/5">科学</RouterLink>-->
+    <!--</li>-->
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/6">人文</RouterLink>-->
+    <!--</li>-->
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/7">杂志</RouterLink>-->
+    <!--</li>-->
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/8">儿童</RouterLink>-->
+    <!--</li>-->
+    <!--<li class="home">-->
+    <!--  <RouterLink active-class="active" to="/category/9">其它</RouterLink>-->
+    <!--</li>-->
   </ul>
 </template>
 
