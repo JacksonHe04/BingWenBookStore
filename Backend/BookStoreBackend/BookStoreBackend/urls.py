@@ -19,6 +19,7 @@ from django.urls import path, include, re_path
 from django.views.generic import RedirectView
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+from product.views import *
 
 
 class CustomRedirectView(RedirectView):
@@ -51,7 +52,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('home/category/', include('category.urls')),
 
-    path('home/brand/', RedirectView.as_view(url='/product/', query_string=True)),
+    # 获取商品库存
+    re_path(r'^goods/stock/(?P<id>\d+)$', RedirectView.as_view(url='/product/stock/%(id)s', query_string=True)),
+    # 匹配 /goods?id=1 的格式，重定向到 /products/?id=1，查询商品详情
+    re_path(r'^goods$', RedirectView.as_view(url='/product/', query_string=True)),
+
+    path('home/brand', RedirectView.as_view(url='/product/brand', query_string=True)),
     path('product/', include('product.urls')),
 
     re_path(r'^login(?:/(.*))?$', login_to_user_redirect),
@@ -59,5 +65,6 @@ urlpatterns = [
 
     # path('login', CustomRedirectView.as_view(url='/user/', query_string=True)),
     # path('user/', include('user.urls')),
+
 
 ]
