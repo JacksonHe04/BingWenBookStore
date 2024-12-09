@@ -55,7 +55,7 @@ urlpatterns = [
     # 获取商品库存
     re_path(r'^goods/stock/(?P<id>\d+)$', RedirectView.as_view(url='/product/stock/%(id)s', query_string=True)),
     # 匹配 /goods?id=1 的格式，重定向到 /products/?id=1，查询商品详情
-    re_path(r'^goods$', RedirectView.as_view(url='/product/', query_string=True)),
+    re_path(r'goods', RedirectView.as_view(url='/product/', query_string=True)),
 
     path('home/brand', RedirectView.as_view(url='/product/brand', query_string=True)),
     path('product/', include('product.urls')),

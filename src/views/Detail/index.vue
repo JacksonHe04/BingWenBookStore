@@ -285,13 +285,13 @@ const addCart = () => {
 
             &::before {
               content: "•";
-              color: $xtxColor;
+              color: $theme;
               margin-right: 2px;
             }
           }
 
           a {
-            color: $xtxColor;
+            color: $theme;
           }
         }
       }
@@ -333,13 +333,13 @@ const addCart = () => {
           margin-top: 10px;
 
           i {
-            color: $xtxColor;
+            color: $theme;
             font-size: 14px;
             margin-right: 2px;
           }
 
           &:hover {
-            color: $xtxColor;
+            color: $theme;
             cursor: pointer;
           }
         }

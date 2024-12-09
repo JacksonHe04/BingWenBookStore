@@ -8,6 +8,7 @@ const httpInstance = axios.create({
   // baseURL: 'https://pcapi-xiaotuxian-front-devtest.itheima.net',
   // baseURL: 'http://127.0.0.1:4523/m1/5240263-4907578-default',
   baseURL: 'https://apifoxmock.com/m1/5240263-4907578-default',
+  // baseURL: 'http://127.0.0.1:8000/',
   timeout: 5000
 })
 

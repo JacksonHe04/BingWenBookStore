@@ -72,14 +72,14 @@ const categoryStore = useCategoryStore()
       display: inline-block;
 
       &:hover {
-        color: $xtxColor;
-        border-bottom: 1px solid $xtxColor;
+        color: $theme;
+        border-bottom: 1px solid $theme;
       }
     }
 
     .active {
-      color: $xtxColor;
-      border-bottom: 1px solid $xtxColor;
+      color: $theme;
+      border-bottom: 1px solid $theme;
     }
   }
 }

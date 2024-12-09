@@ -121,7 +121,7 @@
 
       &:hover {
         .iconfont {
-          color: $xtxColor;
+          color: $theme;
         }
       }
 
@@ -155,7 +155,7 @@
         margin-top: 5px;
         color: #fff;
         border-radius: 2px;
-        background-color: $xtxColor;
+        background-color: $theme;
       }
     }
 

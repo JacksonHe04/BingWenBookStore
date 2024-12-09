@@ -50,7 +50,7 @@ const categoryStore = useCategoryStore()
       line-height: 55px;
 
       &:hover {
-        background: $xtxColor;
+        background: $theme;
       }
 
       a {

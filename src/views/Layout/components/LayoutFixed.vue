@@ -62,7 +62,7 @@ const { y } = useScroll(window)
     display: flex;
     text-align: center;
     padding-left: 40px;
-    border-left: 2px solid $xtxColor;
+    border-left: 2px solid $theme;
 
     a {
       width: 38px;
@@ -71,7 +71,7 @@ const { y } = useScroll(window)
       line-height: 1;
 
       &:hover {
-        color: $xtxColor;
+        color: $theme;
       }
     }
   }

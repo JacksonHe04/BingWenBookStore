@@ -278,7 +278,7 @@ const fomartPayState = (payState) => {
         width: 120px;
 
         .green {
-          color: $xtxColor;
+          color: $theme;
         }
       }
 
@@ -297,7 +297,7 @@ const fomartPayState = (payState) => {
           display: block;
 
           &:hover {
-            color: $xtxColor;
+            color: $theme;
           }
         }
       }

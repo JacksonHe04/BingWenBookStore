@@ -240,7 +240,7 @@ const createOrder = async () => {
     }
 
     >a {
-      color: $xtxColor;
+      color: $theme;
       width: 160px;
       text-align: center;
       height: 90px;
@@ -327,7 +327,7 @@ const createOrder = async () => {
 
   &.active,
   &:hover {
-    border-color: $xtxColor;
+    border-color: $theme;
   }
 }
 
@@ -381,8 +381,8 @@ const createOrder = async () => {
 
     &.active,
     &:hover {
-      border-color: $xtxColor;
-      background: lighten($xtxColor, 50%);
+      border-color: $theme;
+      background: lighten($theme, 50%);
     }
 
     >ul {

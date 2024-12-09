@@ -45,7 +45,7 @@ const confirm = () => {
 
 <style scoped lang="scss">
 .app-topnav {
-  background: #333;
+  background: transparent;
 
   ul {
     display: flex;
@@ -66,7 +66,7 @@ const confirm = () => {
         }
 
         &:hover {
-          color: $xtxColor;
+          color: $theme;
         }
       }
 

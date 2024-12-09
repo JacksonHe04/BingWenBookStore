@@ -1,8 +1,9 @@
 .DS_Store
-.idea/BingWenBookStore.iml
-.idea/inspectionProfiles/
-.idea/modules.xml
-.idea/workspace.xml
 node_modules/
 src/.DS_Store
-#        "\344\271\246\350\241\250.md"
+.idea
+help_notes
+help_pdf
+ "\344\271\246\350\241\250.md"
+书表.md
+__pycache__/

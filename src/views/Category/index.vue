@@ -90,7 +90,7 @@ const { categoryData } = useCategory()
           }
 
           &:hover {
-            color: $xtxColor;
+            color: $theme;
           }
         }
       }

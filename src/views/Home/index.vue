@@ -15,3 +15,10 @@ import HomeProduct from './components/HomeProduct.vue'
   <HomeHot />
   <HomeProduct />
 </template>
+<style scoped>
+.container {
+  background-image: url('@/assets/images/seu.jpg');
+  background-size: cover;
+  background-position: center;
+}
+</style>

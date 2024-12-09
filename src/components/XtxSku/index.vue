@@ -152,7 +152,7 @@ export default {
   cursor: pointer;
 
   &.selected {
-    border-color: $xtxColor;
+    border-color: $theme;
   }
 
   &.disabled {

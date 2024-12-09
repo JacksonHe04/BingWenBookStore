@@ -57,12 +57,12 @@
         position: relative;
 
         &:hover {
-          color: $xtxColor;
+          color: $theme;
         }
 
         &.active,
         &.router-link-exact-active {
-          color: $xtxColor;
+          color: $theme;
 
           &:before {
             display: block;
@@ -78,7 +78,7 @@
           position: absolute;
           top: 19px;
           left: -16px;
-          background-color: $xtxColor;
+          background-color: $theme;
         }
       }
     }

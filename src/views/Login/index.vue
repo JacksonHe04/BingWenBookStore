@@ -168,7 +168,7 @@ const doLogin = () => {
 
     i {
       font-size: 14px;
-      color: $xtxColor;
+      color: $theme;
       letter-spacing: -5px;
     }
   }
@@ -238,7 +238,7 @@ const doLogin = () => {
     text-align: right;
 
     a {
-      color: $xtxColor;
+      color: $theme;
 
       i {
         font-size: 14px;
@@ -282,7 +282,7 @@ const doLogin = () => {
 
           &.active,
           &:focus {
-            border-color: $xtxColor;
+            border-color: $theme;
           }
         }
 
@@ -327,7 +327,7 @@ const doLogin = () => {
       color: #fff;
       text-align: center;
       line-height: 40px;
-      background: $xtxColor;
+      background: $theme;
 
       &.disabled {
         background: #cfcdcd;
@@ -351,7 +351,7 @@ const doLogin = () => {
 }
 
 .subBtn {
-  background: $xtxColor;
+  background: $theme;
   width: 100%;
   color: #fff;
 }

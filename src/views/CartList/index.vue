@@ -144,7 +144,7 @@ const allCheck = (selected) => {
     text-align: center;
 
     a {
-      color: $xtxColor;
+      color: $theme;
     }
 
     .xtx-numbox {
@@ -158,7 +158,7 @@ const allCheck = (selected) => {
   }
 
   .green {
-    color: $xtxColor;
+    color: $theme;
   }
 
   .f16 {
