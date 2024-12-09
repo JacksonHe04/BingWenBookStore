@@ -36,11 +36,19 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
+<<<<<<< HEAD
+    'rest_framework_simplejwt',
+=======
+>>>>>>> f124216d0516d47910000480edba20c621329788
     'corsheaders',
     'cart',
     'category',
     'product',
     'user',
+<<<<<<< HEAD
+    'order',
+=======
+>>>>>>> f124216d0516d47910000480edba20c621329788
 ]
 
 MIDDLEWARE = [
@@ -52,6 +60,10 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'corsheaders.middleware.CorsMiddleware',
+<<<<<<< HEAD
+    'django.contrib.sessions.middleware.SessionMiddleware',
+=======
+>>>>>>> f124216d0516d47910000480edba20c621329788
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -133,9 +145,25 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
+<<<<<<< HEAD
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+
+import os
+# settings.py
+AUTH_USER_MODEL = 'user.User'
+APPEND_SLASH = False
+MEDIA_URL = '/author_pictures/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+=======
     ]
 }
 
 # settings.py
 AUTH_USER_MODEL = 'user.User'
 APPEND_SLASH = False
+>>>>>>> f124216d0516d47910000480edba20c621329788
