@@ -35,11 +35,7 @@ def get_response_data(request):
             result["children"].append(child)
 
         # 获取该分类的书籍作为 Good 对象
-<<<<<<< HEAD
         books = Book.objects.filter(subcategory__parent=category)[:9]
-=======
-        books = Book.objects.filter(subcategory__parent=category)
->>>>>>> f124216d0516d47910000480edba20c621329788
         for book in books:
             good = {
                 "id": str(book.id),
@@ -47,11 +43,7 @@ def get_response_data(request):
                 "desc": book.desc,
                 "discount": book.discount,
                 "orderNum": None,
-<<<<<<< HEAD
                 "picture": book.main_pictures if book.main_pictures else "",  # 假设 main_pictures 是一个图片 URL 列表
-=======
-                "picture": book.main_pictures[0] if book.main_pictures else "",  # 假设 main_pictures 是一个图片 URL 列表
->>>>>>> f124216d0516d47910000480edba20c621329788
                 "price": str(book.old_price)
             }
             result["goods"].append(good)
@@ -59,7 +51,6 @@ def get_response_data(request):
         response_data["result"].append(result)
 
     return JsonResponse(response_data)
-<<<<<<< HEAD
 
 
 from django.http import JsonResponse
@@ -197,5 +188,3 @@ def get_subcategory_filter_view(request):
         "result": result
     }
     return JsonResponse(response)
-=======
->>>>>>> f124216d0516d47910000480edba20c621329788

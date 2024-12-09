@@ -43,7 +43,6 @@ class Book(models.Model):
     discount = models.IntegerField()
     old_price = models.DecimalField(max_digits=10, decimal_places=2)
     inventory = models.IntegerField()
-<<<<<<< HEAD
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name='books')
     authors = models.ManyToManyField(Author, related_name='books')
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name='books')
@@ -52,15 +51,6 @@ class Book(models.Model):
     comment_count = models.IntegerField(default=0)
     main_pictures = models.URLField(max_length=500, null=True, blank=True)
     publish_date = models.DateField(null=True, blank=True)
-=======
-    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name='books')  # 出版商和书籍：多对多
-    authors = models.ManyToManyField(Author, related_name='books')  # 作家和书籍：多对多
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name='books')  # 二级分类和书籍：一对多
-    collect_count = models.IntegerField(default=0)
-    sales_count = models.IntegerField(default=0)
-    comment_count = models.IntegerField(default=0)
-    main_pictures = models.JSONField(null=True, blank=True)  # JSON 列表存储展示图片
->>>>>>> f124216d0516d47910000480edba20c621329788
 
     class Meta:
         verbose_name = '书籍'

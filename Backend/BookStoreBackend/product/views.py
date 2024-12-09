@@ -4,12 +4,9 @@ from product.models import Author
 from django.shortcuts import get_object_or_404
 from .models import Book
 from decimal import Decimal
-<<<<<<< HEAD
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-=======
->>>>>>> f124216d0516d47910000480edba20c621329788
 
 def top_selling_authors(request):
     # 获取 limit 参数并设置默认值为 1
@@ -65,10 +62,6 @@ def get_book_stock(request, id):
     return JsonResponse(response_data)
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f124216d0516d47910000480edba20c621329788
 def get_book_details(request):
     # 获取书籍的 ID 参数
     book_id = request.GET.get('id')
@@ -113,11 +106,6 @@ def get_book_details(request):
                     } if book.subcategory.parent else None,
                 }
             ],
-<<<<<<< HEAD
-=======
-            "collectCount": book.collect_count,
-            "commentCount": book.comment_count,
->>>>>>> f124216d0516d47910000480edba20c621329788
             "desc": book.desc,
             "details": {
                 "pictures": book.main_pictures if book.main_pictures else [],
@@ -149,17 +137,11 @@ def get_book_details(request):
             "mainVideos": [],
             "name": book.name,
             "oldPrice": str(book.old_price),
-<<<<<<< HEAD
             "price": str(book.old_price * (Decimal(book.discount / 100))),
             "recommends": None,
             "salesCount": book.sales_count,
             "commentCount": book.comment_count,
             "collectCount": book.collect_count,
-=======
-            "price": str(book.old_price * (1 - Decimal(book.discount / 100))),
-            "recommends": None,
-            "salesCount": book.sales_count,
->>>>>>> f124216d0516d47910000480edba20c621329788
             "similarProducts": [],
             "skus": [],
             "specs": [],
@@ -170,7 +152,6 @@ def get_book_details(request):
     }
 
     return JsonResponse(response_data)
-<<<<<<< HEAD
 
 
 @api_view(['GET'])
@@ -259,5 +240,3 @@ def banner_view(request):
     return JsonResponse(response)
 
 
-=======
->>>>>>> f124216d0516d47910000480edba20c621329788

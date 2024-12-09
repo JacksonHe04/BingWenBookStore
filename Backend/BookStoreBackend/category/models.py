@@ -11,11 +11,8 @@ class Category(models.Model):
         verbose_name = '一级分类'
         verbose_name_plural = '一级分类表'
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> f124216d0516d47910000480edba20c621329788
     def __str__(self):
         return self.name
 

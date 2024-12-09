@@ -12,7 +12,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import User  # 替换为您的 User 模型路径
 
-<<<<<<< HEAD
 import jwt
 from datetime import datetime, timedelta
 from django.conf import settings
@@ -23,9 +22,6 @@ from util import get_user_from_token
 
 
 @csrf_exempt  # 仅在开发中使用，生产环境应使用更安全的 CSRF 管理
-=======
-@csrf_exempt  # 仅在开发中使用，生产环境应使用更安全的CSRF管理
->>>>>>> f124216d0516d47910000480edba20c621329788
 def login_view(request):
     # 确保请求方法为 POST
     if request.method != 'POST':
@@ -35,11 +31,7 @@ def login_view(request):
             "result": {}
         })
 
-<<<<<<< HEAD
     # 获取用户名和密码
-=======
-    # 从请求体中获取用户名和密码
->>>>>>> f124216d0516d47910000480edba20c621329788
     account = request.POST.get('account') or request.GET.get('account')
     password = request.POST.get('password') or request.GET.get('password')
 
@@ -54,11 +46,7 @@ def login_view(request):
         # 查找用户
         user_data = User.objects.get(account=account)
 
-<<<<<<< HEAD
         # 验证明文密码
-=======
-        # 明文匹配密码
->>>>>>> f124216d0516d47910000480edba20c621329788
         if user_data.password != password:  # 假设数据库中直接存储明文密码
             return JsonResponse({
                 "code": "401",
@@ -66,7 +54,6 @@ def login_view(request):
                 "result": {}
             })
 
-<<<<<<< HEAD
         # 生成访问令牌（JWT）
         payload = {
             "user_id": user_data.id,
@@ -77,9 +64,6 @@ def login_view(request):
         access_token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
         # 构造返回的用户信息
-=======
-        # 构造成功响应的用户信息
->>>>>>> f124216d0516d47910000480edba20c621329788
         result = {
             "account": user_data.account,
             "avatar": user_data.avatar.url if user_data.avatar else "",
@@ -91,11 +75,7 @@ def login_view(request):
             "nickname": user_data.nickname,
             "profession": user_data.profession,
             "provinceCode": user_data.province_code,
-<<<<<<< HEAD
             "token": access_token,  # 使用生成的 JWT 令牌
-=======
-            "token": user_data.token,
->>>>>>> f124216d0516d47910000480edba20c621329788
         }
 
         return JsonResponse({
@@ -112,10 +92,6 @@ def login_view(request):
         })
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f124216d0516d47910000480edba20c621329788
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -123,10 +99,7 @@ from django.shortcuts import get_object_or_404
 import random
 from .models import User
 
-<<<<<<< HEAD
 
-=======
->>>>>>> f124216d0516d47910000480edba20c621329788
 class UserVerificationView(APIView):
     def get(self, request):
         # 处理 GET 请求：生成验证码
@@ -191,7 +164,6 @@ class UserVerificationView(APIView):
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
-<<<<<<< HEAD
 
 
 from django.http import JsonResponse
@@ -408,5 +380,3 @@ def address_edit_delete(request, id):
 
 
 
-=======
->>>>>>> f124216d0516d47910000480edba20c621329788
