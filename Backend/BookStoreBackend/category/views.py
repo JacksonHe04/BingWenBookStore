@@ -28,7 +28,7 @@ def get_response_data(request):
             child = {
                 "id": str(subcategory.id),
                 "name": subcategory.name,
-                "picture": subcategory.picture.url if subcategory.picture else "",
+                "picture": subcategory.picture if subcategory.picture else "",
                 "children": None,
                 "goods": None
             }

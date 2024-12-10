@@ -24,7 +24,7 @@ def top_selling_authors(request):
             "author_id": author.id,
             "author_name": author.name,
             "desc": author.desc,
-            "picture": request.build_absolute_uri(author.picture.url) if author.picture else None,
+            "picture": request.build_absolute_uri(author.picture) if author.picture else None,
             "place": author.place,
             "total_sales": author.total_sales
         }
@@ -197,9 +197,13 @@ def banner_view(request):
     random.seed(1337)
 
     if distribution_site == 1:
-        # 首页：随机选择一定数量的书籍图片
-        books = Book.objects.filter(main_pictures__isnull=False)
-        selected_books = random.sample(list(books), min(len(books), 5))  # 选择最多 5 本书
+        # 指定的书籍ID列表
+        specified_book_ids = [7582, 2998, 4369, 5816, 5061]
+
+        # 根据指定的ID获取书籍对象
+        books = Book.objects.filter(id__in=specified_book_ids)
+
+        # 构建结果列表
         result = [
             {
                 "hrefUrl": f"/books/{book.id}",
@@ -207,8 +211,9 @@ def banner_view(request):
                 "imgUrl": img_urls.img_urls.get(book.id),
                 "type": "book"
             }
-            for book in selected_books
-        ]
+        for book in books
+    ]
+
     elif distribution_site == 2:
         # 分类商品页：从每个大分类中随机选择五本书籍
         categories = Category.objects.all()

@@ -8,7 +8,7 @@ const getBanner = async () => {
   const res = await getBannerAPI()
   // console.log(res)
   bannerList.value = res.result
-  // console.log("首页轮播图", bannerList.value)
+  console.log("首页轮播图", bannerList.value)
 }
 
 onMounted(() => getBanner())
@@ -21,7 +21,9 @@ onMounted(() => getBanner())
   <div class="home-banner">
     <el-carousel height="500px">
       <el-carousel-item v-for="item in bannerList.slice(0, 8)" :key="item.id">
+        <RouterLink :to="`/detail/${item.id}`">
         <img :src="item.imgUrl" alt="">
+        </RouterLink>
       </el-carousel-item>
     </el-carousel>
   </div>
