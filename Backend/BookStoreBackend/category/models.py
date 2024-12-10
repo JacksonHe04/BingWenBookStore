@@ -20,7 +20,7 @@ class Category(models.Model):
 # 二级分类
 class SubCategory(models.Model):
     name = models.CharField(max_length=100)
-    picture = models.ImageField(upload_to='subcategory_pictures/', null=True, blank=True)
+    picture = models.CharField(max_length=500, null=True, blank=True)  # 存储图片的 URL
     sale_properties = models.JSONField(null=True, blank=True)  # 销售属性为 JSON 格式
     parent = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="subcategories")  # 一级分类和二级分类：一对多
 

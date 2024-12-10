@@ -44,7 +44,7 @@ def get_response_data(request):
                 "discount": book.discount,
                 "orderNum": None,
                 "picture": book.main_pictures if book.main_pictures else "",  # 假设 main_pictures 是一个图片 URL 列表
-                "price": str(book.old_price)
+                "price": str(round(book.old_price * (Decimal(book.discount/100)),2)),
             }
             result["goods"].append(good)
 
@@ -87,7 +87,7 @@ def get_category_view(request):
                 "name": book.name,
                 "orderNum": book.sales_count,  # 使用销售量作为 orderNum
                 "picture": book.main_pictures if book.main_pictures else "",
-                "price": str(book.old_price),
+                "price": str(round(book.old_price * (Decimal(book.discount/100)),2)),
             }
             for book in books
         ]
@@ -123,6 +123,7 @@ def get_category_view(request):
 from django.http import JsonResponse
 from .models import SubCategory, Category
 from product.models import Book
+from decimal import Decimal
 
 def get_subcategory_filter_view(request):
     # 获取子分类 ID 参数
@@ -150,7 +151,7 @@ def get_subcategory_filter_view(request):
             "name": book.name,
             "orderNum": book.sales_count,  # 使用销售量作为 orderNum
             "picture": book.main_pictures if book.main_pictures else "",
-            "price": str(book.old_price),
+            "price": str(round(book.old_price * (Decimal(book.discount/100)),2)),
         }
         for book in books
     ]
@@ -178,7 +179,7 @@ def get_subcategory_filter_view(request):
         "name": subcategory.name,
         "parentId": str(parent_category.id) if parent_category else None,
         "parentName": parent_category.name if parent_category else None,
-        "picture": subcategory.picture.url if subcategory.picture else None,
+        "picture": subcategory.picture if subcategory.picture else None,
         "saleProperties": sale_properties,
     }
 

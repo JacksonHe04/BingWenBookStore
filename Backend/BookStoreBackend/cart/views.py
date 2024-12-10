@@ -73,17 +73,15 @@ def merge_cart(request):
             # 获取或创建购物车条目
             cart_item, created = CartItem.objects.get_or_create(cart=cart, book=book,
                                                                 defaults={'original_price': book.old_price,
-                                                                          'current_price': Decimal(book.old_price) * (
-                                                                                  Decimal(1) - Decimal(
-                                                                              book.discount) / Decimal(100)),
+                                                                          'current_price': round(Decimal(book.old_price) * (
+                                                                                  Decimal(book.discount) / Decimal(100)),2),
                                                                           'stock': book.inventory,
                                                                           'count': count})
 
             if not created:
                 cart_item.count += count
                 cart_item.original_price += Decimal(book.old_price) * count
-                cart_item.current_price += Decimal(book.old_price) * (
-                        Decimal(1) - Decimal(book.discount) / Decimal(100)) * count
+                cart_item.current_price += round(Decimal(book.old_price) * (Decimal(book.discount) / Decimal(100)) * count,2)
                 cart_item.save()
 
             # 格式化响应数据

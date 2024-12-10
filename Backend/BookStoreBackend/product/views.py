@@ -50,8 +50,8 @@ def get_book_stock(request, id):
         "code": "200",
         "msg": "获取书籍库存成功",
         "result": {
-            "nowPrice": float(book.old_price) * (1 - book.discount / 100),  # 计算折后价格
-            "oldPrice": float(book.old_price),  # 原价格
+            "nowPrice": round(float(book.old_price) * (book.discount / 100),2),  # 计算折后价格
+            "oldPrice": round(float(book.old_price),2),  # 原价格
             "stock": book.inventory,  # 库存
             "discount": book.discount,  # 折扣信息
             "isEffective": book.inventory > 0,  # 是否有效（库存大于 0）
@@ -137,7 +137,7 @@ def get_book_details(request):
             "mainVideos": [],
             "name": book.name,
             "oldPrice": str(book.old_price),
-            "price": str(book.old_price * (Decimal(book.discount / 100))),
+            "price": str(round(book.old_price * (Decimal(book.discount / 100)), 2)),
             "recommends": None,
             "salesCount": book.sales_count,
             "commentCount": book.comment_count,
@@ -187,13 +187,14 @@ import random
 from django.http import JsonResponse
 from category.models import Category
 from .models import Book
+import img_urls
 
 def banner_view(request):
     # 获取投放位置参数，默认为 1（首页）
     distribution_site = int(request.GET.get("distributionSite", 1))
 
     # 固定随机种子
-    random.seed(42)
+    random.seed(1337)
 
     if distribution_site == 1:
         # 首页：随机选择一定数量的书籍图片
@@ -203,7 +204,7 @@ def banner_view(request):
             {
                 "hrefUrl": f"/books/{book.id}",
                 "id": book.id,
-                "imgUrl": book.main_pictures,
+                "imgUrl": img_urls.img_urls.get(book.id),
                 "type": "book"
             }
             for book in selected_books
