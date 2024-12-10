@@ -1,14 +1,10 @@
 <script setup>
-
-
 // 表单校验（账号名+密码）
 
 import { ref } from 'vue'
-
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
-
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()

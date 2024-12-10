@@ -21,6 +21,16 @@ from user.models import User, Address  # 替换为您的 User 模型路径
 from util import get_user_from_token
 
 
+
+
+import json
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+from datetime import datetime, timedelta
+import jwt
+from django.conf import settings
+
+# /user/
 @csrf_exempt  # 仅在开发中使用，生产环境应使用更安全的 CSRF 管理
 def login_view(request):
     # 确保请求方法为 POST
@@ -31,9 +41,17 @@ def login_view(request):
             "result": {}
         })
 
-    # 获取用户名和密码
-    account = request.POST.get('account') or request.GET.get('account')
-    password = request.POST.get('password') or request.GET.get('password')
+    try:
+        # 解析 JSON 请求体
+        data = json.loads(request.body)
+        account = data.get('account')
+        password = data.get('password')
+    except (KeyError, json.JSONDecodeError):
+        return JsonResponse({
+            "code": "400",
+            "msg": "请求体格式不正确",
+            "result": {}
+        })
 
     if not account or not password:
         return JsonResponse({
@@ -44,7 +62,7 @@ def login_view(request):
 
     try:
         # 查找用户
-        user_data = User.objects.get(account=account)
+        user_data = User.objects.get(account=account)  # 假设使用 account 字段存储账号
 
         # 验证明文密码
         if user_data.password != password:  # 假设数据库中直接存储明文密码
@@ -58,7 +76,7 @@ def login_view(request):
         payload = {
             "user_id": user_data.id,
             "account": user_data.account,
-            "exp": datetime.utcnow() + timedelta(minutes=15),  # 令牌有效期 15 分钟
+            "exp": datetime.utcnow() + timedelta(minutes=120),  # 令牌有效期 15 分钟
             "iat": datetime.utcnow(),
         }
         access_token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
@@ -66,15 +84,15 @@ def login_view(request):
         # 构造返回的用户信息
         result = {
             "account": user_data.account,
-            "avatar": user_data.avatar.url if user_data.avatar else "",
-            "birthday": user_data.birthday.isoformat() if user_data.birthday else "",
-            "cityCode": user_data.city_code,
-            "gender": user_data.gender,
+            "avatar": user_data.profile.avatar.url if hasattr(user_data, 'profile') and user_data.profile.avatar else "",
+            "birthday": user_data.profile.birthday.isoformat() if hasattr(user_data, 'profile') and user_data.profile.birthday else "",
+            "cityCode": user_data.profile.city_code if hasattr(user_data, 'profile') else "",
+            "gender": user_data.profile.gender if hasattr(user_data, 'profile') else "",
             "id": str(user_data.id),
-            "mobile": user_data.mobile,
-            "nickname": user_data.nickname,
-            "profession": user_data.profession,
-            "provinceCode": user_data.province_code,
+            "mobile": user_data.profile.mobile if hasattr(user_data, 'profile') else "",
+            "nickname": user_data.profile.nickname if hasattr(user_data, 'profile') else "",
+            "profession": user_data.profile.profession if hasattr(user_data, 'profile') else "",
+            "provinceCode": user_data.profile.province_code if hasattr(user_data, 'profile') else "",
             "token": access_token,  # 使用生成的 JWT 令牌
         }
 
@@ -90,6 +108,7 @@ def login_view(request):
             "msg": "用户名或密码错误",
             "result": {}
         })
+
 
 
 from rest_framework.views import APIView

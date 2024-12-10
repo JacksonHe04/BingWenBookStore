@@ -53,7 +53,8 @@ def merge_cart(request):
         return JsonResponse({"code": "405", "msg": "请求方法不被允许，仅支持 POST", "result": None}, status=405)
     try:
         user = get_user_from_token(request)
-        cart_items = json.loads(request.body)
+        cart_items = json.loads(request.body)  # 使用 json.loads 解析 JSON 请求体
+        print(cart_items)
 
         # 确保购物车存在
         cart, _ = Cart.objects.get_or_create(user=user)
@@ -61,11 +62,10 @@ def merge_cart(request):
         response_data = []  # 用于存储返回的格式化数据
 
         for item in cart_items:
-            id = item.get("skuId")
-            # 请将skuId改为Id后取消以下注释
-            # id = item.get("Id")
+            id = item.get("id")  # 确保键名为小写的 "id"
+            print(id)
             count = int(item.get("count", 1))
-            selected = item.get("selected", "true").lower() == "true"  # 转为布尔值
+            selected = item.get("selected", True)  # 直接作为布尔值处理
             book = Book.objects.filter(id=id).first()
             if not book:
                 return JsonResponse({"code": "404", "msg": f"未找到 ID 为 {id} 的书籍", "result": None}, status=404)
@@ -86,17 +86,20 @@ def merge_cart(request):
 
             # 格式化响应数据
             response_data.append({
-                "skuId": id,
+                "id": id,
                 "count": cart_item.count,
                 "selected": str(selected).lower(),
                 "originalPrice": str(cart_item.original_price),
                 "currentPrice": str(cart_item.current_price),
-                "stock": cart_item.stock
+                "stock": cart_item.stock,
+                "picture": cart_item.picture
             })
 
         return JsonResponse({"code": "200", "msg": "购物车合并成功", "result": response_data})
     except Exception as e:
         return JsonResponse({"code": "500", "msg": f"服务器内部错误: {str(e)}", "result": None}, status=500)
+
+
 
 
 @csrf_exempt
@@ -134,13 +137,13 @@ def get_cart(request):
         items = cart.items.all()
         result = []
         for item in items:
+            print(item)
             result.append({
                 "id": str(item.id),
-                "skuId": str(item.book.id),
                 "name": item.book.name,
                 "nowOriginalPrice": str(item.original_price),
                 "nowPrice": str(item.current_price),
-                "picture": item.book.main_pictures[0] if item.book.main_pictures else "",
+                "picture": item.book.picture,
                 "postFee": 0,
                 "price": str(item.original_price),
                 "stock": item.stock,
@@ -173,8 +176,10 @@ def add_to_cart(request):
     try:
         user = get_user_from_token(request)  # 从令牌获取用户
         data = json.loads(request.body)  # 解析请求体
-        id = data.get("skuId")
-        # id = data.get("Id")
+        print(data)
+        # id = data.get("skuId")
+        id = data.get("id")
+
         count = int(data.get("count", 1))
 
         # 查找书籍
@@ -182,7 +187,7 @@ def add_to_cart(request):
         if not book:
             return JsonResponse({
                 "code": "404",
-                "msg": f"未找到 SKU 为 {id} 的书籍",
+                "msg": f"未找到 id 为 {id} 的书籍",
                 "result": None
             }, status=404)
 
@@ -195,7 +200,8 @@ def add_to_cart(request):
                                                                         Decimal(1) - Decimal(book.discount) / Decimal(
                                                                     100)),
                                                                 "stock": book.inventory,
-                                                                "count": count
+                                                                "count": count,
+                                                                "picture": book.picture
                                                             })
 
         if not created:

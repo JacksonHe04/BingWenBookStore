@@ -19,34 +19,6 @@ const categoryStore = useCategoryStore()
         {{ item.name }}
       </RouterLink>
     </li>
-
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/1">小说</RouterLink>-->
-    <!--</li>-->
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/2">诗歌</RouterLink>-->
-    <!--</li>-->
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/3">心理</RouterLink>-->
-    <!--</li>-->
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/4">职场</RouterLink>-->
-    <!--</li>-->
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/5">科学</RouterLink>-->
-    <!--</li>-->
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/6">人文</RouterLink>-->
-    <!--</li>-->
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/7">杂志</RouterLink>-->
-    <!--</li>-->
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/8">儿童</RouterLink>-->
-    <!--</li>-->
-    <!--<li class="home">-->
-    <!--  <RouterLink active-class="active" to="/category/9">其它</RouterLink>-->
-    <!--</li>-->
   </ul>
 </template>
 
@@ -61,8 +33,8 @@ const categoryStore = useCategoryStore()
   z-index: 998;
 
   li {
-    margin-right: 40px;
-    width: 38px;
+    margin-right: 5px;
+    width: 55px;
     text-align: center;
 
     a {

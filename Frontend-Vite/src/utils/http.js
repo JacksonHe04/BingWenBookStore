@@ -20,6 +20,7 @@ httpInstance.interceptors.request.use(config => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
+  console.log('Token:', userStore.userInfo.token);
   return config
 }, e => Promise.reject(e))
 

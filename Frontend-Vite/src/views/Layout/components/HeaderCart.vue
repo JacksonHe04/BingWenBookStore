@@ -1,7 +1,7 @@
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
 const cartStore = useCartStore()
-
+console.log("购物车", cartStore.cartList)
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const cartStore = useCartStore()
               <p class="name ellipsis-2">
                 {{ i.name }}
               </p>
-              <p class="attr ellipsis">{{ i.attrsText }}</p>
+              <p class="attr ellipsis"></p>
             </div>
             <div class="right">
               <p class="price">&yen;{{ i.price }}</p>

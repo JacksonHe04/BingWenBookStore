@@ -47,17 +47,18 @@ const countChange = (count) => {
 // 添加购物车
 const addCart = () => {
   if (count) {
-    console.log(skuObj, cartStore.addCart);
+
     // 规则已经选择  触发action
     cartStore.addCart({
       id: goods.value.id,
       name: goods.value.name,
-      picture: goods.value.mainPictures[0],
+      picture: goods.value.picture,
       price: goods.value.price,
       count: count.value,
-      attrsText: skuObj.specsText,
+      // attrsText: skuObj.specsText,
       selected: true,
     });
+    console.log("要添加的商品", goods);
     ElMessage.success("添加购物车成功");
   } else {
     // 规格没有选择 提示用户

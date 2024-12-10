@@ -16,7 +16,7 @@ export const useUserStore = defineStore('user', () => {
     // 合并购物车的操作
     await mergeCartAPI(cartStore.cartList.map(item => {
       return {
-        skuId: item.skuId,
+        id: item.id,
         selected: item.selected,
         count: item.count
       }

@@ -2,12 +2,12 @@
 import request from '@/utils/http'
 
 // 加入购物车
-export const insertCartAPI = ({ skuId, count }) => {
+export const insertCartAPI = ({ id, count }) => {
   return request({
     url: '/member/cart',
     method: 'POST',
     data: {
-      skuId,
+      id,
       count
     }
   })
@@ -32,7 +32,6 @@ export const delCartAPI = (ids) => {
 }
 
 // 合并购物车
-
 export const mergeCartAPI = (data) => {
   return request({
     url: '/member/cart/merge',

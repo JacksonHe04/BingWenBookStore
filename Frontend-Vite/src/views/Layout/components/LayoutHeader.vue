@@ -7,7 +7,7 @@ import HeaderCart from './HeaderCart.vue'
   <header class='app-header'>
     <div class="container">
       <h1 class="logo">
-        <RouterLink to="/">小兔鲜</RouterLink>
+        <RouterLink to="/">秉文书城</RouterLink>
       </h1>
 
       <LayoutHeaderUl />
@@ -45,8 +45,9 @@ import HeaderCart from './HeaderCart.vue'
 
 
   .search {
-    width: 170px;
+    width: 180px;
     height: 32px;
+    margin-left: 30px;
     position: relative;
     border-bottom: 1px solid #e7e7e7;
     line-height: 32px;

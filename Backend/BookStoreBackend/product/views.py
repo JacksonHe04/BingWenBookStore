@@ -5,7 +5,8 @@ from django.shortcuts import get_object_or_404
 from .models import Book
 from decimal import Decimal
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 
 def top_selling_authors(request):
@@ -153,8 +154,9 @@ def get_book_details(request):
 
     return JsonResponse(response_data)
 
-
+# /home/new
 @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def get_new_books(request):
     # 获取limit参数，默认为4
     limit = int(request.GET.get('limit', 4))
