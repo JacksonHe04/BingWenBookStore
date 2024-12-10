@@ -100,7 +100,7 @@ def get_category_view(request):
             "name": subcategory.name,
             "parentId": str(category.id),
             "parentName": category.name,
-            "picture": subcategory.picture.url if subcategory.picture else "",
+            "picture": subcategory.picture if subcategory.picture else "",
             "saleProperties": None,  # 假设没有销售属性
         })
 
