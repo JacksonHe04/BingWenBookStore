@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
   goods: {
-    tppe: Object,
+    type: Object,
     default: () => { }
   }
 })
@@ -9,7 +9,7 @@ defineProps({
 
 
 <template>
-  <RouterLink to="/" class="goods-item">
+  <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
     <img v-img-lazy="goods.picture" alt="" />
     <p class="name ellipsis">{{ goods.name }}</p>
     <p class="desc ellipsis">{{ goods.desc }}</p>

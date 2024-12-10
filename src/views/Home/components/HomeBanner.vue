@@ -6,8 +6,9 @@ const bannerList = ref([])
 
 const getBanner = async () => {
   const res = await getBannerAPI()
-  console.log(res)
+  // console.log(res)
   bannerList.value = res.result
+  // console.log("首页轮播图", bannerList.value)
 }
 
 onMounted(() => getBanner())
@@ -19,7 +20,7 @@ onMounted(() => getBanner())
 <template>
   <div class="home-banner">
     <el-carousel height="500px">
-      <el-carousel-item v-for="item in bannerList" :key="item.id">
+      <el-carousel-item v-for="item in bannerList.slice(0, 8)" :key="item.id">
         <img :src="item.imgUrl" alt="">
       </el-carousel-item>
     </el-carousel>

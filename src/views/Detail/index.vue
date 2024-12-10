@@ -1,36 +1,53 @@
 <script setup>
-import DetailHot from './components/DetailHot.vue'
-import { getDetail } from '@/apis/detail'
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { useCartStore } from '@/stores/cartStore'
-const cartStore = useCartStore()
-const goods = ref({})
-const route = useRoute()
+import DetailHot from "./components/DetailHot.vue";
+import { getDetail } from "@/apis/detail";
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { ElMessage } from "element-plus";
+import { useCartStore } from "@/stores/cartStore";
+const cartStore = useCartStore();
+const goods = ref({});
+const route = useRoute();
 const getGoods = async () => {
-  const res = await getDetail(route.params.id)
-  goods.value = res.result
-}
-onMounted(() => getGoods())
+  try {
+    const res = await getDetail(route.params.id);
+    if (res && res.result) {
+      goods.value = res.result;
+      console.log(res.result);
+    } else {
+      ElMessage.error("商品数据获取失败");
+    }
+  } catch (error) {
+    ElMessage.error("请求出错，请稍后再试");
+    console.error(error);
+  }
+};
+
+onMounted(() => {
+  if (route.params.id) {
+    getGoods();
+  } else {
+    ElMessage.warning("缺少商品ID");
+  }
+});
 
 // sku规格被操作时
-let skuObj = {}
+let skuObj = {};
 const skuChange = (sku) => {
-  console.log(sku)
-  skuObj = sku
-}
+  console.log(sku);
+  skuObj = sku;
+};
 
 // count
-const count = ref(1)
+const count = ref(1);
 const countChange = (count) => {
-  console.log(count)
-}
+  console.log(count);
+};
 
 // 添加购物车
 const addCart = () => {
-  if (skuObj.skuId) {
-    console.log(skuObj, cartStore.addCart)
+  if (count) {
+    console.log(skuObj, cartStore.addCart);
     // 规则已经选择  触发action
     cartStore.addCart({
       id: goods.value.id,
@@ -38,36 +55,35 @@ const addCart = () => {
       picture: goods.value.mainPictures[0],
       price: goods.value.price,
       count: count.value,
-      skuId: skuObj.skuId,
       attrsText: skuObj.specsText,
-      selected: true
-    })
+      selected: true,
+    });
+    ElMessage.success("添加购物车成功");
   } else {
     // 规格没有选择 提示用户
-    ElMessage.warning('请选择规格')
+    ElMessage.warning("请选择数量");
   }
-}
-
+};
 </script>
 
 <template>
   <div class="xtx-goods-page">
     <div class="container" v-if="goods.details">
+      <!-- 面包屑 -->
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <!-- 
-                错误原因：goods一开始{}  {}.categories -> undefined  -> undefined[1]
-                1. 可选链的语法?. 
-                2. v-if手动控制渲染时机 保证只有数据存在才渲染
-            -->
-          <el-breadcrumb-item :to="{ path: `/category/${goods.categories[1].id}` }">{{ goods.categories[1].name }}
+          <el-breadcrumb-item
+            v-if="goods.categories && goods.categories[0].parent"
+            :to="{ path: `/category/${goods.categories[0]?.parent.id}` }"
+            >{{ goods.categories[0]?.parent.name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories[0].id}` }">{{
-            goods.categories[0].name
-          }}
+          <el-breadcrumb-item
+            v-if="goods.categories && goods.categories[0]"
+            :to="{ path: `/category/sub/${goods.categories[0]?.id}` }"
+            >{{ goods.categories[0]?.name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ goods.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <!-- 商品信息 -->
@@ -76,38 +92,34 @@ const addCart = () => {
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <XtxImageView :image-list="goods.mainPictures" />
+              <img :src="goods.mainPictures" class="picture" alt="Product Image" />
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
-                  <p>销量人气</p>
-                  <p> {{ goods.salesCount }}+ </p>
-                  <p><i class="iconfont icon-task-filling"></i>销量人气</p>
+                  <p>{{ goods.salesCount }}+</p>
+                  <p><i class="iconfont icon-task-filling"></i>本书销量</p>
                 </li>
                 <li>
-                  <p>商品评价</p>
                   <p>{{ goods.commentCount }}+</p>
-                  <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
+                  <p><i class="iconfont icon-comment-filling"></i>评价数量</p>
                 </li>
                 <li>
-                  <p>收藏人气</p>
                   <p>{{ goods.collectCount }}+</p>
-                  <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
+                  <p><i class="iconfont icon-favorite-filling"></i>收藏数量</p>
                 </li>
                 <li>
-                  <p>品牌信息</p>
-                  <p>{{ goods.brand.name }}</p>
-                  <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
+                  <p class="brand">{{ goods.brand?.name }}</p>
+                  <p><i class="iconfont icon-dynamic-filling"></i>出版社</p>
                 </li>
               </ul>
             </div>
             <div class="spec">
               <!-- 商品信息区 -->
-              <p class="g-name"> {{ goods.name }} </p>
-              <p class="g-desc">{{ goods.desc }} </p>
+              <p class="g-name">{{ goods.name }}</p>
+              <p class="g-desc">{{ goods.desc }}</p>
               <p class="g-price">
-                <span>{{ goods.oldPrice }}</span>
-                <span> {{ goods.price }}</span>
+                <span>{{ goods.price }}</span>
+                <span> {{ goods.oldPrice }}</span>
               </p>
               <div class="g-service">
                 <dl>
@@ -120,7 +132,6 @@ const addCart = () => {
                     <span>无忧退货</span>
                     <span>快速退款</span>
                     <span>免费包邮</span>
-                    <a href="javascript:;">了解详情</a>
                   </dd>
                 </dl>
               </div>
@@ -134,7 +145,6 @@ const addCart = () => {
                   加入购物车
                 </el-button>
               </div>
-
             </div>
           </div>
           <div class="goods-footer">
@@ -147,13 +157,21 @@ const addCart = () => {
                 <div class="goods-detail">
                   <!-- 属性 -->
                   <ul class="attrs">
-                    <li v-for="item in goods.details.properties" :key="item.value">
+                    <li
+                      v-for="item in goods.details.properties"
+                      :key="item.value"
+                    >
                       <span class="dt">{{ item.name }}</span>
                       <span class="dd">{{ item.value }}</span>
                     </li>
                   </ul>
                   <!-- 图片 -->
-                  <img v-for="img in goods.details.pictures" :src="img" :key="img" alt="">
+                  <img
+                    v-for="img in goods.details.pictures"
+                    :src="img"
+                    :key="img"
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
@@ -171,8 +189,7 @@ const addCart = () => {
   </div>
 </template>
 
-
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .xtx-goods-page {
   .goods-info {
     min-height: 600px;
@@ -183,6 +200,11 @@ const addCart = () => {
       width: 580px;
       height: 600px;
       padding: 30px 50px;
+
+      .picture {
+        height: 80%;
+        object-fit: cover;
+      }
     }
 
     .spec {
@@ -235,6 +257,8 @@ const addCart = () => {
   .g-desc {
     color: #999;
     margin-top: 10px;
+    width: 80%;
+
   }
 
   .g-price {
@@ -309,9 +333,9 @@ const addCart = () => {
       flex: 1;
       position: relative;
 
-      ~li::after {
+      ~ li::after {
         position: absolute;
-        top: 10px;
+        top: 0px;
         left: 0;
         height: 60px;
         border-left: 1px solid #e4e4e4;
@@ -363,7 +387,7 @@ const addCart = () => {
       font-size: 18px;
       position: relative;
 
-      >span {
+      > span {
         color: $priceColor;
         font-size: 16px;
         margin-left: 10px;
@@ -397,17 +421,20 @@ const addCart = () => {
     }
   }
 
-  >img {
+  > img {
     width: 100%;
   }
 }
 
 .btn {
   margin-top: 20px;
-
 }
 
 .bread-container {
   padding: 25px 0;
+}
+
+.brand {
+  width:max-content;
 }
 </style>

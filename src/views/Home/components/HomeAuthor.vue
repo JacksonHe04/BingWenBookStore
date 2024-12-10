@@ -1,11 +1,11 @@
 <script setup>
 import HomePanel from './HomePanel.vue'
-import { getHotAPI } from '@/apis/home'
+import { getAuthorAPI } from '@/apis/home'
 import { onMounted, ref } from 'vue'
-const hotList = ref([])
+const authorList = ref([])
 const getHotList = async () => {
-  const res = await getHotAPI()
-  hotList.value = res.result
+  const res = await getAuthorAPI()
+  authorList.value = res.result
 }
 onMounted(() => getHotList())
 
@@ -13,24 +13,26 @@ onMounted(() => getHotList())
 </script>
 
 <template>
-  <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
+  <HomePanel title="热门作家" sub-title="文星璀璨 名家经典">
     <ul class="goods-list">
-      <li v-for="item in hotList" :key="item.id">
+      <li v-for="item in authorList.slice(0, 4)" :key="item.id">
         <RouterLink to="/">
           <img v-img-lazy="item.picture" alt="">
-          <p class="name">{{ item.title }}</p>
-          <p class="desc">{{ item.alt }}</p>
+          <p class="name">{{ item.author_name }}</p>
         </RouterLink>
       </li>
     </ul>
   </HomePanel>
 </template>
 
+
 <style scoped lang='scss'>
 .goods-list {
   display: flex;
   justify-content: space-between;
   height: 426px;
+  overflow-x: auto; // 添加水平滚动
+  white-space: nowrap; // 防止子元素换行
 
   li {
     width: 306px;

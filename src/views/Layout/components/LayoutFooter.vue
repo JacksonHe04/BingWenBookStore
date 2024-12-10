@@ -62,7 +62,7 @@
             <a href="javascript:;">配送服务</a>
             <a href="javascript:;">商务合作</a>
           </p>
-          <p>CopyRight © 何锦诚，刘睿哲，郑宇榕 2024 All rights reserved.</p>
+          <p>CopyRight © 何锦诚｜郑宇榕｜刘睿哲 2024 All rights reserved.</p>
         </div>
       </div>
     </div>

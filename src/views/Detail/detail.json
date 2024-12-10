@@ -1,0 +1,77 @@
+{
+  "code": "200",
+  "msg": "获取书籍详情成功",
+  "result": {
+    "brand": {
+      "desc": null,
+      "id": "305",
+      "logo": "",
+      "name": "大连理工大学出版社",
+      "nameEn": "大连理工大学出版社",
+      "picture": "",
+      "place": null,
+      "type": null
+    },
+    "categories": [
+      {
+        "id": "36",
+        "layer": 2,
+        "name": "护肤",
+        "parent": {
+          "id": "13",
+          "layer": 1,
+          "name": "时尚/美妆",
+          "parent": null
+        }
+      }
+    ],
+    "desc": "艾扬格瑜伽学院教材系列本书展示了很多崭新而有趣的使用辅具习练瑜伽的方法通过书中的方法可以加强你的艾扬格瑜伽习练本书可以作为大众读物供读者了解学习如何在瑜伽习练中引入辅具亦可作为工具书当习练者在习练过程中遇到具体问题时进行查阅我们在附录中提供了体式索引及插图索引供习练者查阅",
+    "details": {
+      "pictures": "http://img3m3.ddimg.cn/12/6/29196003-1_b_21.jpg",
+      "properties": [
+        {
+          "name": "ISBN",
+          "value": "978-3-192157269-8"
+        },
+        {
+          "name": "库存",
+          "value": "36"
+        }
+      ]
+    },
+    "discount": 93,
+    "evaluationInfo": {
+      "content": "暂无评价内容",
+      "createTime": "",
+      "id": "",
+      "member": null,
+      "officialReply": null,
+      "orderInfo": null,
+      "pictures": null,
+      "praiseCount": 0,
+      "praisePercent": 100,
+      "score": 5,
+      "tags": null
+    },
+    "hotByDay": [],
+    "id": "6413",
+    "inventory": 36,
+    "isCollect": null,
+    "isPreSale": false,
+    "mainPictures": "http://img3m3.ddimg.cn/12/6/29196003-1_b_21.jpg",
+    "mainVideos": [],
+    "name": "辅具瑜伽习练指南 1",
+    "oldPrice": "108.00",
+    "price": "100.4400000000000052757798130",
+    "recommends": null,
+    "salesCount": 183,
+    "commentCount": 519,
+    "collectCount": 14,
+    "similarProducts": [],
+    "skus": [],
+    "specs": [],
+    "spuCode": "",
+    "userAddresses": null,
+    "videoScale": 1
+  }
+}
