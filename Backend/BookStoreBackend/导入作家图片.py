@@ -11,7 +11,7 @@ from product.models import Author  # 替换为你的应用名称
 
 def import_author_images():
     # 设置图片文件夹路径
-    images_dir = r"D:\数据库原理\writer"  # 替换为你的图片路径
+    images_dir = r"/Users/jackson/WebstormProjects/BingWenBookStore/Backend/BookStoreBackend/media/author_pictures"  # 替换为你的图片路径
 
     # 检查目录是否存在
     if not os.path.exists(images_dir):

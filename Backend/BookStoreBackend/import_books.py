@@ -156,7 +156,7 @@ def import_book_data(row):
 
 def main():
     # 读取Excel文件
-    excel_path = r'D:\Users\15654\PycharmProjects\BingWenBookStore\Backend\BookStoreBackend\modified_data_with_isbn.xlsx'  # 替换为你的Excel文件路径
+    excel_path = r'/Users/jackson/WebstormProjects/BingWenBookStore/Backend/BookStoreBackend/modified_data_with_isbn.xlsx'  # 替换为你的Excel文件路径
 
     try:
         df = pd.read_excel(excel_path)

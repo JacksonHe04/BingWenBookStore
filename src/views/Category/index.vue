@@ -1,12 +1,18 @@
 <script setup>
+import GoodsItem from "../Home/components/GoodsItem.vue";
+import { computed } from "vue";
+import { useBanner } from "./composables/useBanner";
+import { useCategory } from "./composables/useCategory";
 
-import GoodsItem from '../Home/components/GoodsItem.vue'
-import { useBanner } from './composables/useBanner'
-import { useCategory } from './composables/useCategory'
-const { bannerList } = useBanner()
-const { categoryData } = useCategory()
+const { bannerList } = useBanner();
+const { categoryData } = useCategory();
 
-
+// 计算属性，筛选出 categoryName 和 categoryData.name 相同的 banner
+const filteredBannerList = computed(() => {
+  return bannerList.value.filter(
+    (banner) => banner.categoryName === categoryData.value.name,
+  );
+});
 </script>
 
 <template>
@@ -22,11 +28,14 @@ const { categoryData } = useCategory()
       <!-- 轮播图 -->
       <div class="home-banner">
         <el-carousel height="500px">
-          <el-carousel-item v-for="item in bannerList" :key="item.id">
-            <img :src="item.imgUrl" alt="">
+          <el-carousel-item v-for="item in filteredBannerList" :key="item.id">
+            <RouterLink :to="`/detail/${item.id}`">
+              <img :src="item.imgUrl" alt="" />
+            </RouterLink>
           </el-carousel-item>
         </el-carousel>
       </div>
+      <!-- 二级分类 -->
       <div class="sub-list">
         <h3>全部分类</h3>
         <ul>
@@ -38,7 +47,12 @@ const { categoryData } = useCategory()
           </li>
         </ul>
       </div>
-      <div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
+      <!-- 二级分类的商品 -->
+      <div
+        class="ref-goods"
+        v-for="item in categoryData.children"
+        :key="item.id"
+      >
         <div class="head">
           <h3>- {{ item.name }}-</h3>
         </div>
@@ -46,10 +60,28 @@ const { categoryData } = useCategory()
           <GoodsItem v-for="good in item.goods" :goods="good" :key="good.id" />
         </div>
       </div>
+      <!-- 当前分类所有二级分类的商品汇总 -->
+      <div class="ref-goods">
+        <div class="head">
+          <h3>- {{ categoryData.name }} 全部商品-</h3>
+        </div>
+        <div class="all-goods">
+          <div
+            class="ref-goods all-goods"
+            v-for="item in categoryData.children"
+            :key="item.id"
+          >
+            <GoodsItem
+              v-for="good in item.goods"
+              :goods="good"
+              :key="good.id"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
 
 <style scoped lang="scss">
 .top-category {
@@ -73,7 +105,6 @@ const { categoryData } = useCategory()
       li {
         width: 168px;
         height: 160px;
-
 
         a {
           text-align: center;
@@ -122,23 +153,45 @@ const { categoryData } = useCategory()
       display: flex;
       justify-content: space-around;
       padding: 0 40px 30px;
+      overflow-x: auto; // 添加水平滚动
+      white-space: nowrap; // 防止子元素换行
+      flex-wrap: nowrap;
     }
   }
+}
 
-  .bread-container {
-    padding: 25px 0;
-  }
+.bread-container {
+  padding: 25px 0;
 }
 
 .home-banner {
   width: 1240px;
   height: 500px;
   margin: 0 auto;
-
+  background-color: #fff;
 
   img {
-    width: 100%;
-    height: 500px;
+    height: 100%;
+    width: auto; // 让宽度自适应
+    object-fit: cover; // 防止图片拉伸
+    display: block; // 将图片设置为块级元素以便使用 margin 居中
+    margin: 0 auto; // 水平居中
   }
+}
+
+.body {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 40px 30px;
+  overflow-x: auto; // 添加水平滚动
+  white-space: wrap;
+  flex-wrap: wrap;
+}
+
+.all-goods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-direction: row-reverse;
 }
 </style>

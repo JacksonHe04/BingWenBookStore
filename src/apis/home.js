@@ -26,6 +26,17 @@ export const findNewAPI = () => {
 }
 
 /**
+ * @description: 获取推荐作家
+ * @param {*}
+ * @return {*}
+ */
+export const getAuthorAPI = () => {
+  return httpInstance({
+    url: '/home/brand'
+  })
+}
+
+/**
  * @description: 获取人气推荐
  * @param {*}
  * @return {*}
