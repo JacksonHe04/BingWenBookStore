@@ -1,9 +1,9 @@
 .DS_Store
-node_modules/
-src/.DS_Store
+Frontend-Vite/src/.DS_Store
+Frontend-Vite/node_modules
+Frontend-Vite/dist
 .idea
 help_notes
 help_pdf
  "\344\271\246\350\241\250.md"
-书表.md
 __pycache__/
