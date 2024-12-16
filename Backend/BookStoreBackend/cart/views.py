@@ -51,6 +51,7 @@ from django.http import JsonResponse
 def merge_cart(request):
     if request.method != 'POST':
         return JsonResponse({"code": "405", "msg": "请求方法不被允许，仅支持 POST", "result": None}, status=405)
+
     try:
         user = get_user_from_token(request)
         cart_items = json.loads(request.body)  # 使用 json.loads 解析 JSON 请求体
@@ -62,42 +63,50 @@ def merge_cart(request):
         response_data = []  # 用于存储返回的格式化数据
 
         for item in cart_items:
-            id = item.get("id")  # 确保键名为小写的 "id"
-            print(id)
-            count = int(item.get("count", 1))
-            selected = item.get("selected", True)  # 直接作为布尔值处理
-            book = Book.objects.filter(id=id).first()
-            if not book:
-                return JsonResponse({"code": "404", "msg": f"未找到 ID 为 {id} 的书籍", "result": None}, status=404)
+            try:
+                id = item["id"]  # 确保键名为小写的 "id"
+                print(id)
+                count = int(item.get("count", 1))
+                selected = item.get("selected", True)  # 直接作为布尔值处理
+                book = Book.objects.filter(id=id).first()
+                if not book:
+                    return JsonResponse({"code": "404", "msg": f"未找到 ID 为 {id} 的书籍", "result": None}, status=404)
 
-            # 获取或创建购物车条目
-            cart_item, created = CartItem.objects.get_or_create(cart=cart, book=book,
-                                                                defaults={'original_price': book.old_price,
-                                                                          'current_price': round(Decimal(book.old_price) * (
-                                                                                  Decimal(book.discount) / Decimal(100)),2),
-                                                                          'stock': book.inventory,
-                                                                          'count': count})
+                # 获取或创建购物车条目
+                cart_item, created = CartItem.objects.get_or_create(cart=cart, book=book,
+                                                                    defaults={'original_price': book.old_price,
+                                                                              'current_price': round(Decimal(book.old_price) * (
+                                                                                      Decimal(book.discount) / Decimal(100)), 2),
+                                                                              'stock': book.inventory,
+                                                                              'count': count})
 
-            if not created:
-                cart_item.count += count
-                cart_item.original_price += Decimal(book.old_price) * count
-                cart_item.current_price += round(Decimal(book.old_price) * (Decimal(book.discount) / Decimal(100)) * count,2)
-                cart_item.save()
+                if not created:
+                    cart_item.count += count
+                    cart_item.original_price += Decimal(book.old_price) * count
+                    cart_item.current_price += round(Decimal(book.old_price) * (Decimal(book.discount) / Decimal(100)) * count, 2)
+                    cart_item.save()
 
-            # 格式化响应数据
-            response_data.append({
-                "id": id,
-                "count": cart_item.count,
-                "selected": str(selected).lower(),
-                "originalPrice": str(cart_item.original_price),
-                "currentPrice": str(cart_item.current_price),
-                "stock": cart_item.stock,
-                "picture": cart_item.picture
-            })
+                # 格式化响应数据
+                response_data.append({
+                    "id": id,
+                    "count": cart_item.count,
+                    "selected": str(selected).lower(),
+                    "originalPrice": str(cart_item.original_price),
+                    "currentPrice": str(cart_item.current_price),
+                    "stock": cart_item.stock,
+                    "picture": book.main_pictures  # 修改为从 book 获取 picture
+                })
+            except KeyError as e:
+                return JsonResponse({"code": "400", "msg": f"缺少必要的字段: {str(e)}", "result": None}, status=400)
+            except ValueError as e:
+                return JsonResponse({"code": "400", "msg": f"字段值错误: {str(e)}", "result": None}, status=400)
 
         return JsonResponse({"code": "200", "msg": "购物车合并成功", "result": response_data})
     except Exception as e:
+        print(f"Exception: {e}")  # 打印详细的异常信息
         return JsonResponse({"code": "500", "msg": f"服务器内部错误: {str(e)}", "result": None}, status=500)
+
+
 
 
 
@@ -143,7 +152,7 @@ def get_cart(request):
                 "name": item.book.name,
                 "nowOriginalPrice": str(item.original_price),
                 "nowPrice": str(item.current_price),
-                "picture": item.book.picture,
+                "picture": item.book.main_pictures,
                 "postFee": 0,
                 "price": str(item.original_price),
                 "stock": item.stock,
@@ -170,76 +179,81 @@ def get_cart(request):
 
 
 def add_to_cart(request):
-    """
-    新增购物车项并返回详细数据
-    """
-    try:
-        user = get_user_from_token(request)  # 从令牌获取用户
-        data = json.loads(request.body)  # 解析请求体
-        print(data)
-        # id = data.get("skuId")
-        id = data.get("id")
+ try:
+     user = get_user_from_token(request)  # 从令牌获取用户
+     print(f"User: {user}")
 
-        count = int(data.get("count", 1))
+     data = json.loads(request.body)  # 解析请求体
+     print(f"Data: {data}")
 
-        # 查找书籍
-        book = Book.objects.filter(id=id).first()
-        if not book:
-            return JsonResponse({
-                "code": "404",
-                "msg": f"未找到 id 为 {id} 的书籍",
-                "result": None
-            }, status=404)
+     id = data.get("id")
+     count = int(data.get("count", 1))
 
-        # 获取或创建购物车和条目
-        cart, _ = Cart.objects.get_or_create(user=user)
-        cart_item, created = CartItem.objects.get_or_create(cart=cart, book=book,
-                                                            defaults={
-                                                                "original_price": book.old_price,
-                                                                "current_price": Decimal(book.old_price) * (
-                                                                        Decimal(1) - Decimal(book.discount) / Decimal(
-                                                                    100)),
-                                                                "stock": book.inventory,
-                                                                "count": count,
-                                                                "picture": book.picture
-                                                            })
+     # 查找书籍
+     book = Book.objects.filter(id=id).first()
+     if not book:
+         return JsonResponse({
+             "code": "404",
+             "msg": f"未找到 id 为 {id} 的书籍",
+             "result": None
+         }, status=404)
 
-        if not created:
-            cart_item.count += count
-            cart_item.save()
+     print(f"Book: {book}")
 
-        # 构造返回的结果数据
-        result = {
-            "attrsText": "",
-            "count": cart_item.count,
-            "discount": None,
-            "id": str(cart_item.id),
-            "isCollect": False,
-            "isEffective": True,
-            "name": book.name,
-            "nowOriginalPrice": str(cart_item.original_price),
-            "nowPrice": str(cart_item.current_price),
-            "picture": book.main_pictures[0] if book.main_pictures else "",
-            "postFee": 0,
-            "price": str(cart_item.original_price),
-            "selected": True,
-            "skuId": str(book.id),
-            "specs": [],
-            "stock": cart_item.stock
-        }
+     # 获取或创建购物车和条目
+     cart, _ = Cart.objects.get_or_create(user=user)
+     print(f"Cart: {cart}")
 
-        return JsonResponse({
-            "code": "200",
-            "msg": "添加到购物车成功",
-            "result": result
-        })
+     cart_item, created = CartItem.objects.get_or_create(cart=cart, book=book,
+                                                         defaults={
+                                                             "original_price": book.old_price,
+                                                             "current_price": Decimal(book.old_price) * (
+                                                                     Decimal(1) - Decimal(book.discount) / Decimal(
+                                                                 100)),
+                                                             "stock": book.inventory,
+                                                             "count": count,
+                                                             "picture": book.main_pictures
+                                                         })
+     print(f"CartItem: {cart_item}, Created: {created}")
 
-    except Exception as e:
-        return JsonResponse({
-            "code": "500",
-            "msg": f"服务器内部错误: {str(e)}",
-            "result": None
-        }, status=500)
+     if not created:
+         cart_item.count += count
+         cart_item.save()
+
+     # 构造返回的结果数据
+     result = {
+         "attrsText": "",
+         "count": cart_item.count,
+         "discount": None,
+         "id": str(cart_item.id),
+         "isCollect": False,
+         "isEffective": True,
+         "name": book.name,
+         "nowOriginalPrice": str(cart_item.original_price),
+         "nowPrice": str(cart_item.current_price),
+         "picture": book.main_pictures[0] if book.main_pictures else "",
+         "postFee": 0,
+         "price": str(cart_item.original_price),
+         "selected": True,
+         "skuId": str(book.id),
+         "specs": [],
+         "stock": cart_item.stock
+     }
+
+     return JsonResponse({
+         "code": "200",
+         "msg": "添加到购物车成功",
+         "result": result
+     })
+
+ except Exception as e:
+     print(f"Exception: {e}")
+     return JsonResponse({
+         "code": "500",
+         "msg": f"服务器内部错误: {str(e)}",
+         "result": None
+     }, status=500)
+
 
 
 def delete_from_cart(request):

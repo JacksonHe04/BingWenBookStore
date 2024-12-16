@@ -1,6 +1,7 @@
 from django.http import JsonResponse
-from category.models import Category, SubCategory
+from .models import SubCategory, Category
 from product.models import Book
+from decimal import Decimal
 
 
 def get_response_data(request):
@@ -51,11 +52,6 @@ def get_response_data(request):
         response_data["result"].append(result)
 
     return JsonResponse(response_data)
-
-
-from django.http import JsonResponse
-from .models import Category, SubCategory
-from product.models import Book
 
 
 def get_category_view(request):
@@ -120,11 +116,6 @@ def get_category_view(request):
     return JsonResponse(response)
 
 
-from django.http import JsonResponse
-from .models import SubCategory, Category
-from product.models import Book
-from decimal import Decimal
-
 def get_subcategory_filter_view(request):
     # 获取子分类 ID 参数
     subcategory_id = request.GET.get("id")
@@ -187,5 +178,32 @@ def get_subcategory_filter_view(request):
         "code": "200",
         "msg": "Success",
         "result": result
+    }
+    return JsonResponse(response)
+
+
+def get_new_books(request):
+    limit = int(request.GET.get('limit', 4))
+    # 获取按出版日期排序的最新图书
+    new_books = Book.objects.all().order_by('-publish_date')[:limit]
+
+    # 序列化数据
+    books_data = []
+    for book in new_books:
+        book_data = {
+            'desc': book.desc,
+            'discount': book.discount,
+            'id': str(book.id),
+            'name': book.name,
+            'orderNum': book.sales_count,  # 或者是其他你想使用的字段
+            'picture': book.main_pictures,  # 图片的 URL
+            'price': str(book.old_price),  # 价格字段
+        }
+        books_data.append(book_data)
+
+    response = {
+        "code": "200",
+        "msg": "Success",
+        'result': books_data,
     }
     return JsonResponse(response)

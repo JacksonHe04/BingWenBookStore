@@ -51,6 +51,9 @@ class Book(models.Model):
     comment_count = models.IntegerField(default=0)
     main_pictures = models.URLField(max_length=500, null=True, blank=True)
     publish_date = models.DateField(null=True, blank=True)
+    # 属性picture string
+    # picture = models.TextField(null=True, blank=True)
+
 
     class Meta:
         verbose_name = '书籍'

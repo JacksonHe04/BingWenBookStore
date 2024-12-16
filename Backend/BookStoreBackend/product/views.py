@@ -154,36 +154,6 @@ def get_book_details(request):
 
     return JsonResponse(response_data)
 
-# /home/new
-@api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-def get_new_books(request):
-    # 获取limit参数，默认为4
-    limit = int(request.GET.get('limit', 4))
-
-    # 获取按出版日期排序的最新图书
-    new_books = Book.objects.all().order_by('-publish_date')[:limit]
-
-    # 序列化数据
-    books_data = []
-    for book in new_books:
-        book_data = {
-            'desc': book.desc,
-            'discount': book.discount,
-            'id': str(book.id),
-            'name': book.name,
-            'orderNum': book.sales_count,  # 或者是其他你想使用的字段
-            'picture': book.main_pictures,  # 图片的 URL
-            'price': str(book.old_price),  # 价格字段
-        }
-        books_data.append(book_data)
-
-    return Response({
-        'code': '200',
-        'msg': 'Success',
-        'result': books_data,
-    })
-
 
 import random
 from django.http import JsonResponse
