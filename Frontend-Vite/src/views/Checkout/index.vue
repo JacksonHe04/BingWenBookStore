@@ -13,8 +13,10 @@ const getCheckInfo = async () => {
   checkInfo.value = res.result
   // 适配默认地址
   // 从地址列表中筛选出来 isDefault === 0 那一项
-  const item = checkInfo.value.userAddresses.find(item => item.isDefault === 0)
-  curAddress.value = item
+  // const item = checkInfo.value.userAddresses.find(item => item.isDefault === 0)
+  curAddress.value = checkInfo.value.userAddresses[0]
+  // console.log("uA地址列表", checkInfo.value.userAddresses[0])
+  // console.log("c用户信息", curAddress.value)
 }
 
 onMounted(() => getCheckInfo())
@@ -50,10 +52,12 @@ const createOrder = async () => {
     addressId: curAddress.value.id
   })
   const orderId = res.result.id
+  const totalPayPrice = checkInfo.value.summary.totalPayPrice // 获取应付总额
   router.push({
     path: '/pay',
     query: {
-      id: orderId
+      id: orderId,
+      totalPayPrice: totalPayPrice // 传递应付总额
     }
   })
   // 更新购物车
@@ -140,15 +144,15 @@ const createOrder = async () => {
             </dl>
             <dl>
               <dt>商品总价：</dt>
-              <dd>¥{{ checkInfo.summary?.totalPrice.toFixed(2) }}</dd>
+              <dd>¥{{ checkInfo.summary?.totalPrice }}</dd>
             </dl>
             <dl>
               <dt>运<i></i>费：</dt>
-              <dd>¥{{ checkInfo.summary?.postFee.toFixed(2) }}</dd>
+              <dd>¥{{ checkInfo.summary?.postFee }}</dd>
             </dl>
             <dl>
               <dt>应付总额：</dt>
-              <dd class="price">{{ checkInfo.summary?.totalPayPrice.toFixed(2) }}</dd>
+              <dd class="price">{{ checkInfo.summary?.totalPayPrice }}</dd>
             </dl>
           </div>
         </div>

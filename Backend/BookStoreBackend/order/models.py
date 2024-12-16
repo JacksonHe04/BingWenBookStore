@@ -25,6 +25,12 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     shipping_address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
 
+    # 添加新的字段
+    delivery_time_type = models.IntegerField(default=0)
+    pay_type = models.IntegerField(default=0)
+    pay_channel = models.IntegerField(default=0)
+    buyer_message = models.TextField(blank=True, null=True)
+
     class Meta:
         verbose_name = "订单"
         verbose_name_plural = "订单表"

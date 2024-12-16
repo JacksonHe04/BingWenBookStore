@@ -212,7 +212,6 @@ def add_to_cart(request):
                                                                  100)),
                                                              "stock": book.inventory,
                                                              "count": count,
-                                                             "picture": book.main_pictures
                                                          })
      print(f"CartItem: {cart_item}, Created: {created}")
 
@@ -231,7 +230,7 @@ def add_to_cart(request):
          "name": book.name,
          "nowOriginalPrice": str(cart_item.original_price),
          "nowPrice": str(cart_item.current_price),
-         "picture": book.main_pictures[0] if book.main_pictures else "",
+         "picture": book.main_pictures,
          "postFee": 0,
          "price": str(cart_item.original_price),
          "selected": True,

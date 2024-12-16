@@ -3,27 +3,30 @@ import { getOrderAPI } from '@/apis/pay'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCountDown } from '@/composables/useCountDown'
+
 const { formatTime, start } = useCountDown()
+
 // 获取订单数据
 const route = useRoute()
 const payInfo = ref({})
+
 const getPayInfo = async () => {
-  const res = await getOrderAPI(route.query.id)
-  payInfo.value = res.result
-  // 初始化倒计时秒数
-  start(res.result.countdown)
+  // 直接从路由参数中获取 totalPayPrice
+  if (route.query.totalPayPrice) {
+    payInfo.value.payMoney = parseFloat(route.query.totalPayPrice)
+  }
 }
+
 onMounted(() => getPayInfo())
 
+// 定义支付图片路径
+const wechatPayURL = '/public/wechat_pay.png' // 微信支付图片路径
+const alipayURL = '/public/alipay.jpg' // 支付宝支付图片路径
+
 // 跳转支付
-// 携带订单id以及回调地址跳转到支付地址（get）
-// 支付地址
-const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
 const backURL = 'http://127.0.0.1:5173/paycallback'
 const redirectUrl = encodeURIComponent(backURL)
-const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
-
 
 <template>
   <div class="xtx-pay-page">
@@ -33,7 +36,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redire
         <span class="icon iconfont icon-queren2"></span>
         <div class="tip">
           <p>订单提交成功！请尽快完成支付。</p>
-          <p>支付还剩 <span>{{ formatTime }}</span>, 超时后将取消订单</p>
+          <p>请在20分钟内完成支付, 超时后将取消订单</p>
         </div>
         <div class="amount">
           <span>应付总额：</span>
@@ -45,8 +48,8 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redire
         <p class="head">选择以下支付方式付款</p>
         <div class="item">
           <p>支付平台</p>
-          <a class="btn wx" href="javascript:;"></a>
-          <a class="btn alipay" :href="payUrl"></a>
+          <a class="btn wx" :href="wechatPayURL" target="_blank"></a>
+          <a class="btn alipay" :href="alipayURL" target="_blank"></a>
         </div>
         <div class="item">
           <p>支付方式</p>
@@ -67,7 +70,6 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redire
 }
 
 .pay-info {
-
   background: #fff;
   display: flex;
   align-items: center;

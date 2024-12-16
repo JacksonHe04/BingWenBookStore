@@ -33,7 +33,7 @@ def create_order_summary_and_save(request):
                 "totalPrice": str(item.original_price * item.count),
                 "totalPayPrice": str(item.current_price * item.count),
                 "skuId": str(item.id),  # 使用 `item.id` 模拟 SKU ID
-                "picture": item.book.main_pictures[0] if item.book.main_pictures else None,
+                "picture": item.book.main_pictures,
             }
             goods.append(good_data)
 
@@ -189,3 +189,102 @@ def get_order_detail(request, id):
         return JsonResponse({"code": "200", "msg": "成功", "result": result}, status=200)
     except Exception as e:
         return JsonResponse({"code": "500", "msg": f"获取订单详情失败: {str(e)}"}, status=500)
+
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from .models import Order, OrderItem, Address
+from util import get_user_from_token
+from decimal import Decimal
+import logging
+import json
+
+# 添加日志记录器
+logger = logging.getLogger(__name__)
+
+def post_order_pay(request):
+    try:
+        # 从请求中获取用户
+        user = get_user_from_token(request)
+
+        # 手动解析 JSON 请求体
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            logger.error("Failed to decode JSON from request body")
+            return JsonResponse({"code": "400", "msg": "请求数据格式错误"}, status=400)
+
+        delivery_time_type = data.get('deliveryTimeType')
+        pay_type = data.get('payType')
+        pay_channel = data.get('payChannel')
+        buyer_message = data.get('buyerMessage')
+        address_id = data.get('addressId')
+
+        # 调试信息：打印用户ID和地址ID
+        logger.debug(f"User ID: {user.id}, Address ID: {address_id}")
+
+        # 检查 address_id 是否为 None 或空字符串
+        if not address_id:
+            logger.error("Address ID is None or empty")
+            return JsonResponse({"code": "400", "msg": "地址ID不能为空"}, status=400)
+
+        # 解析商品列表
+        goods = []
+        goods_len = int(data.get('goodsLen', 0))
+        logger.debug(f"Number of goods: {goods_len}")
+        for i in range(goods_len):
+            sku_id = data.get(f'goods[{i}][skuId]')
+            count = data.get(f'goods[{i}][count]')
+            logger.debug(f"Good {i}: skuId={sku_id}, count={count}")
+            goods.append({'skuId': sku_id, 'count': count})
+
+        # 从数据库中获取实际的地址对象
+        try:
+            shipping_address = Address.objects.get(id=address_id)
+            logger.debug(f"Shipping Address found: {shipping_address}")
+        except Address.DoesNotExist:
+            logger.error(f"No Address matches the given query for address ID {address_id}")
+            return JsonResponse({"code": "400", "msg": "地址不存在"}, status=400)
+
+        # 根据 skuId 获取订单项
+        order_items = OrderItem.objects.filter(id__in=[item['skuId'] for item in goods])
+        if len(order_items) != len(goods):
+            return JsonResponse({"code": "400", "msg": "部分商品不存在"}, status=400)
+
+        # 计算总价
+        total_price = sum(item.current_price * int(next(filter(lambda x: x['skuId'] == str(item.id), goods))['count']) for item in order_items)
+        post_fee = Decimal("10.00")
+        total_pay_price = total_price + post_fee
+
+        # 创建订单
+        order = Order.objects.create(
+            user=user,
+            total_price=total_price,
+            total_pay_price=total_pay_price,
+            post_fee=post_fee,
+            shipping_address=shipping_address,
+            delivery_time_type=delivery_time_type,
+            pay_type=pay_type,
+            pay_channel=pay_channel,
+            buyer_message=buyer_message,
+        )
+
+        # 更新订单项的订单关联
+        for item in order_items:
+            order_item_count = next(filter(lambda x: x['skuId'] == str(item.id), goods))['count']
+            OrderItem.objects.filter(id=item.id).update(order=order, count=order_item_count)
+
+        # 构造响应数据
+        response_data = {
+            "code": "200",
+            "msg": "订单提交成功",
+            "result": {
+                "orderId": str(order.id),
+                "totalPayPrice": str(total_pay_price),
+            },
+        }
+        return JsonResponse(response_data, status=200)
+
+    except Exception as e:
+        logger.exception(f"订单提交失败: {str(e)}")
+        return JsonResponse({"code": "500", "msg": f"订单提交失败: {str(e)}"}, status=500)
