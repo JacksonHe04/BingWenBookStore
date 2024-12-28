@@ -398,4 +398,41 @@ def address_edit_delete(request, id):
         }, status=500)
 
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+import json
+from user.models import User
+
+@csrf_exempt
+@require_POST
+def register_user(request):
+    """
+    用户注册视图函数
+    接收账号和密码，将用户信息存入数据库
+    """
+    try:
+        # 从请求体中解析 JSON 数据
+        body = json.loads(request.body.decode('utf-8'))
+        account = body.get('account')
+        password = body.get('password')
+
+        # 校验必填字段
+        if not account or not password:
+            return JsonResponse({"error": "账号和密码是必填项"}, status=400)
+
+        # 检查账号是否已存在
+        if User.objects.filter(account=account).exists():
+            return JsonResponse({"error": "该账号已被注册"}, status=400)
+
+        # 创建新用户并保存到数据库
+        user = User.objects.create_user(account=account, password=password)
+        user.save()
+
+        return JsonResponse({"message": "注册成功", "user_id": user.id}, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "无效的 JSON 数据"}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": f"注册失败: {str(e)}"}, status=500)
 

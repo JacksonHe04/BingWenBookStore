@@ -51,8 +51,8 @@ def get_book_stock(request, id):
         "code": "200",
         "msg": "获取书籍库存成功",
         "result": {
-            "nowPrice": round(float(book.old_price) * (book.discount / 100),2),  # 计算折后价格
-            "oldPrice": round(float(book.old_price),2),  # 原价格
+            "nowPrice": round(float(book.old_price) * (book.discount / 100), 2),  # 计算折后价格
+            "oldPrice": round(float(book.old_price), 2),  # 原价格
             "stock": book.inventory,  # 库存
             "discount": book.discount,  # 折扣信息
             "isEffective": book.inventory > 0,  # 是否有效（库存大于 0）
@@ -161,6 +161,7 @@ from category.models import Category
 from .models import Book
 import img_urls
 
+
 def banner_view(request):
     # 获取投放位置参数，默认为 1（首页）
     distribution_site = int(request.GET.get("distributionSite", 1))
@@ -183,8 +184,8 @@ def banner_view(request):
                 "imgUrl": img_urls.img_urls.get(book.id),
                 "type": "book"
             }
-        for book in books
-    ]
+            for book in books
+        ]
 
     elif distribution_site == 2:
         # 分类商品页：从每个大分类中随机选择五本书籍
@@ -218,3 +219,38 @@ def banner_view(request):
     return JsonResponse(response)
 
 
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+from django.db.models import Q
+from product.models import Book
+import re
+
+@require_GET
+def search_books(request):
+    """
+    模糊搜索书籍名称
+    """
+    query = request.GET.get("query", "")  # 从请求中获取搜索关键词
+    if not query:
+        return JsonResponse({"error": "请输入搜索关键词"}, status=400)
+
+    # 使用正则表达式对书籍名称进行模糊匹配
+    try:
+        regex = re.compile(query, re.IGNORECASE)  # 构建正则表达式，忽略大小写
+        books = Book.objects.filter(name__iregex=regex.pattern)  # 使用 Django 的 iregex 过滤书籍
+
+        # 构建返回数据
+        result = []
+        for book in books:
+            result.append({
+                "id": book.id,
+                "name": book.name,
+                "picture": book.main_pictures,  # 假设图片的 URL 存储在 main_pictures 字段
+                "children": None,
+                "goods": None,
+            })
+
+        return JsonResponse(result, safe=False, status=200)
+
+    except re.error:
+        return JsonResponse({"error": "无效的正则表达式"}, status=400)
