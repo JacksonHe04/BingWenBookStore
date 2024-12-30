@@ -11,7 +11,7 @@ const userStore = useUserStore()
 
 // 1. 准备表单对象
 const form = ref({
-  account: '18610848230',
+  account: 'user1',
   password: '123456',
   agree: true
 })
@@ -73,7 +73,7 @@ const doLogin = () => {
     <header class="login-header">
       <div class="container m-top-20">
         <h1 class="logo">
-          <RouterLink to="/">小兔鲜</RouterLink>
+          <RouterLink to="/"></RouterLink>
         </h1>
         <RouterLink class="entry" to="/">
           进入网站首页
@@ -110,16 +110,7 @@ const doLogin = () => {
 
     <footer class="login-footer">
       <div class="container">
-        <p>
-          <a href="javascript:;">关于我们</a>
-          <a href="javascript:;">帮助中心</a>
-          <a href="javascript:;">售后服务</a>
-          <a href="javascript:;">配送与验收</a>
-          <a href="javascript:;">商务合作</a>
-          <a href="javascript:;">搜索推荐</a>
-          <a href="javascript:;">友情链接</a>
-        </p>
-        <p>CopyRight &copy; 小兔鲜儿</p>
+        <p>CopyRight &copy; 何锦诚 郑宇榕 刘睿哲</p>
       </div>
     </footer>
   </div>
@@ -171,7 +162,6 @@ const doLogin = () => {
 }
 
 .login-section {
-  background: url('@/assets/images/login-bg.png') no-repeat center / cover;
   height: 488px;
   position: relative;
 

@@ -177,12 +177,12 @@ const addCart = () => {
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
-            <div class="goods-aside">
-              <!-- 24小时 -->
-              <DetailHot :hot-type="1" />
-              <!-- 周 -->
-              <DetailHot :hot-type="2" />
-            </div>
+            <!--<div class="goods-aside">-->
+            <!--  &lt;!&ndash; 24小时 &ndash;&gt;-->
+            <!--  <DetailHot :hot-type="1" />-->
+            <!--  &lt;!&ndash; 周 &ndash;&gt;-->
+            <!--  <DetailHot :hot-type="2" />-->
+            <!--</div>-->
           </div>
         </div>
       </div>

@@ -57,3 +57,17 @@ export const getGoodsAPI = () => {
     url: '/home/goods'
   })
 }
+
+/**
+ * @description: 搜索书籍
+ * @param {string} query - 搜索关键词
+ * @return {Promise}
+ */
+export const searchBooksAPI = (query) => {
+  return httpInstance({
+    url: '/product/search',
+    params: {
+      query
+    }
+  })
+}

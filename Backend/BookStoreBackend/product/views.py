@@ -171,7 +171,7 @@ def banner_view(request):
 
     if distribution_site == 1:
         # 指定的书籍ID列表
-        specified_book_ids = [7582, 2998, 4369, 5816, 5061]
+        specified_book_ids = [7592, 2998, 4379, 5826, 5071]
 
         # 根据指定的ID获取书籍对象
         books = Book.objects.filter(id__in=specified_book_ids)

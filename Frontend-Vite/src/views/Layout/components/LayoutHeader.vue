@@ -1,7 +1,28 @@
 <script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import LayoutHeaderUl from './LayoutHeaderUl.vue'
 import HeaderCart from './HeaderCart.vue'
+import { searchBooksAPI } from '@/apis/home'
+
+const router = useRouter()
+const searchQuery = ref('')
+
+const handleSearch = async () => {
+  if (searchQuery.value.trim()) {
+    try {
+      const response = await searchBooksAPI(searchQuery.value)
+      router.push({ path: '/search-results', query: { results: encodeURIComponent(JSON.stringify(response)) } })
+    } catch (error) {
+      console.error('搜索失败:', error)
+    }
+  } else {
+    alert('请输入搜索关键词')
+  }
+}
+
 </script>
+
 
 <template>
   <header class='app-header'>
@@ -12,15 +33,14 @@ import HeaderCart from './HeaderCart.vue'
 
       <LayoutHeaderUl />
       <div class="search">
-        <i class="iconfont icon-search"></i>
-        <input type="text" placeholder="搜一搜">
+        <i class="iconfont icon-search" @click="handleSearch"></i>
+        <input type="text" v-model="searchQuery" placeholder="搜一搜">
       </div>
       <!-- 头部购物车 -->
       <HeaderCart />
     </div>
-</header>
+  </header>
 </template>
-
 
 <style scoped lang='scss'>
 .app-header {
@@ -43,7 +63,6 @@ import HeaderCart from './HeaderCart.vue'
     }
   }
 
-
   .search {
     width: 180px;
     height: 32px;
@@ -55,6 +74,7 @@ import HeaderCart from './HeaderCart.vue'
     .icon-search {
       font-size: 18px;
       margin-left: 5px;
+      cursor: pointer; /* 添加鼠标指针样式 */
     }
 
     input {

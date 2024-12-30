@@ -15,6 +15,7 @@ import PayBack from '@/views/Pay/PayBack.vue'
 import Member from '@/views/Member/index.vue'
 import UserInfo from '@/views/Member/components/UserInfo.vue'
 import UserOrder from '@/views/Member/components/UserOrder.vue'
+import SearchResult from '@/views/SearchResult/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,11 @@ const router = createRouter({
           path: 'detail/:id',
           component: Detail,
           meta: { title: '图书详情' }
+        },
+        {
+          path: 'search-results',
+          name: 'SearchResult',
+          component: SearchResult
         },
         {
           path: 'cartlist',

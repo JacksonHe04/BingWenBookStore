@@ -1,9 +1,9 @@
 img_urls = {
-    7582: 'https://www.helloimg.com/i/2024/12/10/67582fb830375.jpg',
-    2998: 'https://www.helloimg.com/i/2024/12/10/67582fb879686.jpg',
-    4369: 'https://www.helloimg.com/i/2024/12/10/67582fb86124d.jpg',
-    5816: 'https://www.helloimg.com/i/2024/12/10/67582fb89032f.jpg',
-    5061: 'https://www.helloimg.com/i/2024/12/10/67582fb8566d0.jpg',
+    7592: 'https://www.helloimg.com/i/2024/12/10/67582fb830375.jpg',
+    2998: 'https://s10.aconvert.com/convert/p3r68-cdx67/to6tq-yedxd.jpg',
+    4379: 'https://www.helloimg.com/i/2024/12/10/67582fb86124d.jpg',
+    5826: 'https://www.helloimg.com/i/2024/12/10/67582fb89032f.jpg',
+    5071: 'https://www.helloimg.com/i/2024/12/10/67582fb8566d0.jpg',
 }
 
 writer_urls = {
