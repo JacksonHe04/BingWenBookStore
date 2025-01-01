@@ -69,7 +69,7 @@ BingWenBookStore/
 5. （可选）生成测试数据并导入数据库：
 
     ```bash
-    python generate_test_data.py
+    python import_books.py
     ```
 
 6. 启动Django后端服务：
@@ -113,7 +113,7 @@ BingWenBookStore/
 ## 使用说明
 
 - 在浏览器中访问 `http://127.0.0.1:5173` 使用前端页面。
-- 后端API服务可通过 `http://127.0.0.1:8000/api/` 进行调用。
+- 后端API服务可通过 `http://127.0.0.1:8000` 进行调用。
 
 ## 项目资源与文档
 
