@@ -1,206 +1,133 @@
-### README.md - **BingWenBookStore**
+# 秉文书城项目 README
 
-# 项目简介
+## 项目简介
 
-**BingWenBookStore** 是一个基于 Django 后端和 Vue.js 前端的网上书店项目，提供商品浏览、购物车、订单管理、用户账户等功能。项目使用 MySQL 数据库来存储商品信息、用户数据和订单记录，并通过 RESTful API 实现前后端的分离。
+**秉文书城**是一个在线书店项目，作为东南大学计算机科学与工程学院数据库原理课程的课程项目。项目名称旨在致敬东南大学创始人 **郭秉文先生**。
 
-## 目录结构
+### 团队成员
 
-```plaintext
-.
-├── Backend                # 后端代码 (Django)
-│   └── BookStoreBackend   # 后端核心模块
-│       ├── cart           # 购物车模块
-│       ├── category       # 商品分类模块
-│       ├── media          # 媒体文件（如图片）
-│       ├── order          # 订单模块
-│       ├── product        # 商品模块
-│       ├── user           # 用户模块
-│       └── manage.py      # Django 管理脚本
-├── Docs                   # 数据分析文档
-│   ├── Book Analysis Data.csv
-│   └── Book Analysis Clean Data.csv
-├── Frontend-Vite          # 前端代码 (Vue.js + Vite)
-│   ├── dist               # 构建后的文件
-│   ├── public             # 公共资源
-│   ├── src                # 源代码
-│   │   ├── apis           # API 请求
-│   │   ├── assets         # 静态资源
-│   │   ├── components     # Vue 组件
-│   │   ├── composables    # 组合式函数
-│   │   ├── router         # 路由管理
-│   │   ├── stores         # 状态管理 (Pinia)
-│   │   ├── styles         # 样式文件
-│   │   ├── utils          # 工具函数
-│   │   └── views          # 页面组件
-├── help_notes             # 帮助文档
-└── help_pdf               # 帮助 PDF 文件
+- **何锦诚**：前端开发与UI设计
+- **郑宇榕**：后端开发
+- **刘睿哲**：产品管理与运维
+
+该项目通过友好的前端界面和高效的后端逻辑，为用户提供流畅的电子商务体验。
+
+## 项目特色
+
+- 全面的书籍管理系统
+- 用户友好的购物车与订单系统
+- 安全的用户认证与支付功能
+- 现代化的响应式设计界面
+
+## 项目结构
+
+```
+BingWenBookStore/
+├── BookStoreBackend/       # 基于Django的后端
+├── Documents/              # 设计文档与项目报告
+├── Frontend-Vite/          # 基于Vite的Vue.js前端
+├── Resources/              # 数据来源与分析
+└── README.md               # 本README文件
 ```
 
-## 功能模块
+项目的完整英文版README请参见：[Documents/README_EN.md](Documents/README_EN.md)。
 
-### 1. **后端 (Django)**
+## 安装与运行指南
 
-- **用户模块 (`user`)**：处理用户注册、登录、权限管理、用户信息。
-- **购物车模块 (`cart`)**：用户可以将商品添加到购物车，管理购物车项。
-- **商品分类模块 (`category`)**：展示和管理商品分类，支持多级分类。
-- **商品模块 (`product`)**：展示商品详情，支持商品的增、删、改、查操作。
-- **订单模块 (`order`)**：管理用户订单，支持下单、支付、订单状态更新等操作。
+### 环境依赖
 
-### 2. **前端 (Vue.js + Vite)**
+在开始之前，请确保安装以下工具：
 
-- **首页 (`Home`)**：展示推荐商品、热门商品和分类信息。
-- **商品详情页 (`Detail`)**：展示商品的详细信息和购买选项。
-- **购物车页 (`CartList`)**：用户查看和编辑购物车内的商品。
-- **结算页 (`Checkout`)**：用户完成订单结算、支付。
-- **支付页 (`Pay`)**：处理支付过程并显示支付结果。
-- **用户中心 (`Member`)**：查看和修改用户信息，查看订单历史。
-- **商品分类页 (`Category`)**：展示商品分类，支持分类浏览。
-- **登录页 (`Login`)**：用户登录系统。
+- **Node.js**：v16及以上
+- **Python**：v3.10及以上
+- **MySQL**：最新稳定版
 
-### 3. **数据库 (MySQL)**
+### 后端配置
 
-- 使用 MySQL 数据库存储用户信息、商品数据、订单数据等。
-- 后端提供 API 接口，前端通过 API 获取和提交数据。
+1. 进入 `BookStoreBackend` 目录：
 
----
+    ```bash
+    cd BookStoreBackend
+    ```
 
-## 环境配置
+2. 安装后端依赖：
 
-### 1. **安装前提**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-确保你已经安装了以下软件：
+3. 配置数据库：
 
-- **Python 3.x**：用于后端 Django 项目。
-- **Node.js**：用于前端开发，推荐使用 LTS 版本。
-- **MySQL**：用于数据库管理。
+   - 打开 `BookStoreBackend/settings.py` 文件，在 `DATABASES` 配置项中填写你的 MySQL 数据库信息。
 
-### 2. **后端环境搭建**
+4. 执行数据库迁移：
 
-1. 克隆后端项目：
+    ```bash
+    python manage.py migrate
+    ```
 
-   ```bash
-   git clone https://github.com/your-repository/BingWenBookStore.git
-   cd Backend/BookStoreBackend
-   ```
+5. （可选）生成测试数据并导入数据库：
 
-2. 创建虚拟环境并安装依赖：
+    ```bash
+    python generate_test_data.py
+    ```
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # Linux/MacOS
-   venv\Scripts\activate      # Windows
-   pip install -r requirements.txt
-   ```
+6. 启动Django后端服务：
 
-3. 配置数据库连接：在 `settings.py` 中配置 MySQL 数据库连接。
+    ```bash
+    python manage.py runserver
+    ```
 
-4. 运行数据库迁移：
+   后端服务将运行在 `http://127.0.0.1:8000`。
 
-   ```bash
-   python manage.py migrate
-   ```
+### 前端配置
 
-5. 启动开发服务器：
+1. 进入 `Frontend-Vite` 目录：
 
-   ```bash
-   python manage.py runserver
-   ```
+    ```bash
+    cd Frontend-Vite
+    ```
 
-   后端 API 将在 `http://localhost:8000` 上运行。
+2. 安装前端依赖：
 
-### 3. **前端环境搭建**
-
-1. 克隆前端项目：
-
-   ```bash
-   git clone https://github.com/your-repository/BingWenBookStore.git
-   cd Frontend-Vite
-   ```
-
-2. 安装依赖：
-
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 3. 启动开发服务器：
 
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
-   前端应用将在 `http://localhost:3000` 上运行。
+   前端服务将运行在 `http://127.0.0.1:5173`。
 
----
+4. （可选）构建生产环境版本：
 
-## 功能介绍
+    ```bash
+    npm run build
+    ```
 
-### 1. **用户系统**
+   构建输出将在 `dist` 文件夹中生成。
 
-- 用户可以通过注册、登录、登出等功能管理自己的账户。
-- 支持查看个人信息、修改密码、查看历史订单。
+## 使用说明
 
-### 2. **商品管理**
+- 在浏览器中访问 `http://127.0.0.1:5173` 使用前端页面。
+- 后端API服务可通过 `http://127.0.0.1:8000/api/` 进行调用。
 
-- 浏览商品分类、查看商品详细信息。
-- 支持商品加入购物车，编辑购物车中的商品。
+## 项目资源与文档
 
-### 3. **购物车与结算**
+- **Documents/**: 包含项目报告和设计文档。
+- **Resources/**: 包含数据来源说明和清洗后的数据文件。
 
-- 用户可以将商品添加到购物车，查看购物车中的商品，编辑数量。
-- 在结算页面，用户可以选择支付方式，并确认订单。
+## 许可证
 
-### 4. **订单管理**
+本项目采用 MIT 开源许可证，详情请参见 [LICENSE](LICENSE) 文件。
 
-- 用户可以查看订单的状态（未支付、已支付、已发货、已完成等）。
-- 支持订单的查询、支付。
+## 致谢
 
----
-
-## 技术栈
-
-- **后端**：Django, Django REST Framework, MySQL
-- **前端**：Vue.js, Vite, Pinia (状态管理), Axios (数据请求)
-- **数据库**：MySQL
-- **工具**：Docker (可选)，Git，Nginx (部署)
+我们感谢数据库原理课程的老师给予的指导，以及东南大学提供的学习平台。特别向 **郭秉文先生** 致敬，他的远见卓识不断激励着我们前行。
 
 ---
 
-## 部署
-
-### 1. **后端部署**
-
-1. 将后端项目部署到服务器。
-2. 配置数据库连接，迁移数据库。
-3. 配置 Nginx 或 Gunicorn 来运行 Django 项目。
-
-### 2. **前端部署**
-
-1. 使用 Vite 构建生产版本：
-
-   ```bash
-   npm run build
-   ```
-
-2. 部署构建后的文件到服务器，使用 Nginx 或其他静态文件服务进行托管。
-
----
-
-## 贡献
-
-欢迎提出问题、报告 bug、提交功能请求或进行贡献！我们欢迎你的 Pull Requests。
-
-### 如何贡献
-
-1. Fork 本仓库。
-2. 创建你的功能分支 (`git checkout -b feature-branch`)。
-3. 提交你的更改 (`git commit -am 'Add new feature'`)。
-4. 推送到分支 (`git push origin feature-branch`)。
-5. 创建 Pull Request。
-
----
-
-## 许可
-
-该项目采用 [MIT 许可证](LICENSE)。
+如有疑问或想要参与贡献，请随时联系团队成员。祝您使用愉快！🎉
